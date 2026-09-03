@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LogosDev Project Hub</title>
+<style>
+:root{--gold:#CAB273;--gold2:#917847;--bg:#1f2023;--panel:#292a2e;--panel2:#303136;--border:#414247;--text:#f5f5f5;--muted:#a9abb1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#cab27318,transparent 30%),var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.top{height:72px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:#1f2023ee;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,var(--gold),var(--gold2));color:#222;font-weight:900}.brand b{display:block}.brand small{color:var(--muted)}
+.actions{display:flex;gap:8px}.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 14px}.btn:hover{background:#393a3f}.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));border:0;color:#211f1a;font-weight:800}
+main{max-width:1400px;margin:auto;padding:34px 28px 60px}.hero{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:27px}.hero h1{font-size:34px;margin:0 0 7px}.hero p{color:var(--muted);margin:0;line-height:1.5;max-width:700px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:23px}.stat{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:16px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:6px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.search{position:relative;flex:1;min-width:250px}.search span{position:absolute;left:13px;top:10px;color:var(--muted)}.search input{width:100%;padding:11px 12px 11px 36px;background:var(--panel);border:1px solid var(--border);border-radius:9px;color:var(--text);outline:0}
+select{padding:10px 12px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:9px}.views{display:flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}.views button{border:0;background:var(--panel);color:var(--muted);padding:9px 13px}.views .active{background:var(--gold2);color:white}
+.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:17px}.projects.list{display:flex;flex-direction:column}.projects.list .card{display:grid;grid-template-columns:95px 1fr auto;align-items:center}.projects.list .cover{height:95px;margin:6px;width:95px}.projects.list .body{padding:12px}.projects.list .footer{border:0;padding:12px}
+.card{overflow:hidden;background:var(--panel);border:1px solid var(--border);border-radius:15px;transition:.18s;box-shadow:0 8px 25px #00000018}.card:hover{transform:translateY(-3px);border-color:#585960}
+.cover{height:145px;background:linear-gradient(135deg,#36373b,#202125);position:relative;display:grid;place-items:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.cover .placeholder{font-size:40px;font-weight:900;color:#cab273dd}.status{position:absolute;top:10px;left:10px;background:#0008;padding:5px 8px;border-radius:6px;font-size:10px;font-weight:800}.fav{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;border:1px solid #ffffff22;background:#0007;color:white;font-size:18px}.fav.on{color:#ffd86b}
+.body{padding:17px}.body h3{margin:0 0 7px;font-size:17px}.desc{color:var(--muted);font-size:12px;line-height:1.5;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tags{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}.tag{font-size:10px;background:#38393e;color:#c5c6ca;padding:4px 7px;border-radius:5px}.footer{display:flex;gap:7px;padding:0 17px 16px}.footer .btn{flex:1;font-size:12px;text-align:center}
+.empty{grid-column:1/-1;text-align:center;padding:65px 20px;border:1px dashed var(--border);border-radius:16px;color:var(--muted)}
+.backdrop{position:fixed;inset:0;background:#000b;backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.backdrop.open{display:flex}.modal{width:min(700px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid #4a4b50;border-radius:16px}.mh{padding:19px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;position:sticky;top:0;background:var(--panel);z-index:2}.mh h2{margin:0;font-size:19px}.close{border:0;background:0;color:var(--muted);font-size:25px}.form{padding:21px 22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#c9cacf}.field input,.field textarea{width:100%;padding:11px 12px;background:#222326;border:1px solid var(--border);border-radius:9px;color:var(--text);outline:0}.field textarea{min-height:85px;resize:vertical}.help{font-size:10px;color:var(--muted)}.mf{padding:15px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--panel)}.danger{color:#ff929b}.toast{position:fixed;right:22px;bottom:22px;background:#33343a;border:1px solid #4a4b50;padding:12px 16px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.2s;z-index:100}.toast.show{opacity:1;transform:none}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.hero{display:block}.hero .btn{margin-top:18px}}@media(max-width:600px){.top{padding:0 15px}.actions .btn:not(.primary){display:none}main{padding:25px 15px}.hero h1{font-size:28px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.projects{grid-template-columns:1fr}.projects.list .card{display:block}.projects.list .cover{width:100%;height:130px;margin:0}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">L</div><div><b>LogosDev</b><small>Project Hub</small></div></div>
+  <div class="actions">
+    <button class="btn" onclick="exportar()">⬇ Backup</button>
+    <button class="btn" onclick="document.getElementById('importar').click()">⬆ Restaurar</button>
+    <button class="btn primary" onclick="abrirModal()">＋ Novo Projeto</button>
+  </div>
+</header>
+
+<main>
+<section class="hero"><div><h1>Project Hub</h1><p>Todos os seus projetos, sistemas e ferramentas em um só lugar. Cadastre o link publicado e o repositório do GitHub para acessar rapidamente.</p></div><button class="btn primary" onclick="abrirModal()">＋ Adicionar projeto</button></section>
+<section class="stats">
+<div class="stat"><small>Total de projetos</small><strong id="total">0</strong></div>
+<div class="stat"><small>Ativos</small><strong id="ativos">0</strong></div>
+<div class="stat"><small>Em desenvolvimento</small><strong id="dev">0</strong></div>
+<div class="stat"><small>Favoritos</small><strong id="favoritos">0</strong></div>
+</section>
+<section class="toolbar">
+<div class="search"><span>⌕</span><input id="busca" placeholder="Pesquisar projetos..." oninput="render()"></div>
+<select id="fCategoria" onchange="render()"><option value="">Todas as categorias</option></select>
+<select id="fStatus" onchange="render()"><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="desenvolvimento">Em desenvolvimento</option><option value="concluido">Concluído</option><option value="arquivado">Arquivado</option></select>
+<select id="ordem" onchange="render()"><option value="recentes">Mais recentes</option><option value="nome">Nome A–Z</option><option value="favoritos">Favoritos</option></select>
+<div class="views"><button id="gridBtn" class="active" onclick="visual('grid')">▦</button><button id="listBtn" onclick="visual('list')">☷</button></div>
+</section>
+<section id="projects" class="projects"></section>
+</main>
+
+<div id="modal" class="backdrop" onclick="fora(event)"><div class="modal">
+<div class="mh"><h2 id="titulo">Novo projeto</h2><button class="close" onclick="fechar()">×</button></div>
+<form class="form" onsubmit="salvar(event)">
+<div class="grid">
+<div class="field"><label>Nome do projeto *</label><input id="nome" required placeholder="Ex.: Sistema de Gestão de Frota"></div>
+<div class="field"><label>Categoria *</label><input id="categoria" required list="listaCategorias" placeholder="Ex.: Gestão"><datalist id="listaCategorias"></datalist></div>
+<div class="field full"><label>Descrição</label><textarea id="descricao" placeholder="Descreva rapidamente o projeto..."></textarea></div>
+<div class="field"><label>URL do projeto</label><input id="url" type="url" placeholder="https://..."><span class="help">Link para abrir o sistema/site publicado.</span></div>
+<div class="field"><label>URL do GitHub</label><input id="github" type="url" placeholder="https://github.com/..."><span class="help">Link do repositório.</span></div>
+<div class="field"><label>Imagem / capa</label><input id="capa" type="url" placeholder="https://.../imagem.png"></div>
+<div class="field"><label>Ícone / emoji</label><input id="icone" maxlength="4" placeholder="💻"></div>
+<div class="field"><label>Status</label><select id="status"><option value="desenvolvimento">Em desenvolvimento</option><option value="ativo">Ativo</option><option value="concluido">Concluído</option><option value="arquivado">Arquivado</option></select></div>
+<div class="field"><label>Favorito</label><select id="fav"><option value="false">Não</option><option value="true">⭐ Sim</option></select></div>
+<div class="field full"><label>Observações</label><textarea id="obs" placeholder="Notas internas..."></textarea></div>
+</div>
+</form>
+<div class="mf"><button id="excluir" class="btn danger" style="display:none;margin-right:auto" onclick="excluir()">Excluir</button><button class="btn" onclick="fechar()">Cancelar</button><button class="btn primary" onclick="document.querySelector('.form').requestSubmit()">Salvar projeto</button></div>
+</div></div>
+<input id="importar" type="file" accept=".json" hidden onchange="importarBackup(event)">
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY="logosdev_project_hub";
+let projetos=[],editId=null,view="grid";
+const $=id=>document.getElementById(id);
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function safe(u){try{let x=new URL(u);return["http:","https:"].includes(x.protocol)?x.href:""}catch{return""}}
+function load(){try{projetos=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(projetos))projetos=[]}catch{projetos=[]}render()}
+function store(){localStorage.setItem(KEY,JSON.stringify(projetos))}
+function label(s){return{ativo:"Ativo",desenvolvimento:"Em desenvolvimento",concluido:"Concluído",arquivado:"Arquivado"}[s]||"Sem status"}
+function cats(){let a=[...new Set(projetos.map(p=>p.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));let old=$("fCategoria").value;$("fCategoria").innerHTML='<option value="">Todas as categorias</option>'+a.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");if(a.includes(old))$("fCategoria").value=old;$("listaCategorias").innerHTML=a.map(x=>`<option value="${esc(x)}">`).join("")}
+function render(){
+cats();$("total").textContent=projetos.length;$("ativos").textContent=projetos.filter(p=>p.status==="ativo").length;$("dev").textContent=projetos.filter(p=>p.status==="desenvolvimento").length;$("favoritos").textContent=projetos.filter(p=>p.favorito).length;
+let q=$("busca").value.toLowerCase(),c=$("fCategoria").value,s=$("fStatus").value,o=$("ordem").value;
+let a=projetos.filter(p=>[p.nome,p.descricao,p.categoria,p.obs].join(" ").toLowerCase().includes(q)&&(!c||p.categoria===c)&&(!s||p.status===s));
+if(o==="nome")a.sort((x,y)=>x.nome.localeCompare(y.nome,"pt-BR"));else if(o==="favoritos")a.sort((x,y)=>Number(y.favorito)-Number(x.favorito)||(y.criadoEm-x.criadoEm));else a.sort((x,y)=>(y.criadoEm||0)-(x.criadoEm||0));
+let box=$("projects");box.className="projects "+view;
+if(!a.length){box.innerHTML=`<div class="empty">${projetos.length?"🔎<br><br><b>Nenhum projeto encontrado</b><br>Tente alterar os filtros.":"🚀<br><br><b>Seu Hub ainda está vazio</b><br><br><button class='btn primary' onclick='abrirModal()'>＋ Adicionar primeiro projeto</button>"}</div>`;return}
+box.innerHTML=a.map(p=>{let img=safe(p.capa),url=safe(p.url),gh=safe(p.github),icon=p.icone||p.nome.slice(0,2).toUpperCase();return `<article class="card"><div class="cover">${img?`<img src="${esc(img)}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'>`:""}<div class="placeholder" style="${img?"display:none":""}">${esc(icon)}</div><div class="status">${esc(label(p.status))}</div><button class="fav ${p.favorito?"on":""}" onclick="fav('${p.id}')">${p.favorito?"★":"☆"}</button></div><div class="body"><h3>${esc(p.nome)}</h3><div class="desc">${esc(p.descricao||"Sem descrição cadastrada.")}</div><div class="tags"><span class="tag">${esc(p.categoria)}</span>${gh?'<span class="tag">GitHub</span>':""}</div></div><div class="footer"><button class="btn primary" onclick="${url?`openLink('${esc(url)}')`:`abrirModal('${p.id}')`}">${url?"↗ Abrir projeto":"✎ Editar"}</button>${gh?`<button class="btn" onclick="openLink('${esc(gh)}')">GitHub</button>`:""}<button class="btn" onclick="abrirModal('${p.id}')">⋯</button></div></article>`}).join("")
+}
+function openLink(u){let x=safe(u);if(x)window.open(x,"_blank","noopener,noreferrer")}
+function visual(v){view=v;$("gridBtn").classList.toggle("active",v==="grid");$("listBtn").classList.toggle("active",v==="list");render()}
+function abrirModal(idv=null){editId=idv;let p=idv?projetos.find(x=>x.id===idv):null;$("titulo").textContent=p?"Editar projeto":"Novo projeto";$("excluir").style.display=p?"block":"none";$("nome").value=p?.nome||"";$("categoria").value=p?.categoria||"";$("descricao").value=p?.descricao||"";$("url").value=p?.url||"";$("github").value=p?.github||"";$("capa").value=p?.capa||"";$("icone").value=p?.icone||"";$("status").value=p?.status||"desenvolvimento";$("fav").value=String(!!p?.favorito);$("obs").value=p?.obs||"";$("modal").classList.add("open");setTimeout(()=>$("nome").focus(),50)}
+function fechar(){$("modal").classList.remove("open");editId=null}
+function fora(e){if(e.target.id==="modal")fechar()}
+function salvar(e){e.preventDefault();let d={nome:$("nome").value.trim(),categoria:$("categoria").value.trim(),descricao:$("descricao").value.trim(),url:$("url").value.trim(),github:$("github").value.trim(),capa:$("capa").value.trim(),icone:$("icone").value.trim(),status:$("status").value,favorito:$("fav").value==="true",obs:$("obs").value.trim()};if(editId){let i=projetos.findIndex(p=>p.id===editId);projetos[i]={...projetos[i],...d,atualizadoEm:Date.now()};toast("Projeto atualizado.")}else{projetos.unshift({id:id(),...d,criadoEm:Date.now(),atualizadoEm:Date.now()});toast("Projeto adicionado ao Hub.")}store();fechar();render()}
+function fav(i){let p=projetos.find(x=>x.id===i);if(p){p.favorito=!p.favorito;store();render()}}
+function excluir(){if(!editId)return;if(confirm("Excluir este projeto do Hub? O repositório do GitHub não será apagado.")){projetos=projetos.filter(p=>p.id!==editId);store();fechar();render();toast("Projeto excluído.")}}
+function exportar(){let b=new Blob([JSON.stringify({app:"LogosDev Project Hub",versao:1,projetos},null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="logosdev-project-hub-backup.json";a.click();URL.revokeObjectURL(u);toast("Backup exportado.")}
+function importarBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result),a=Array.isArray(d)?d:d.projetos;if(!Array.isArray(a))throw 0;let map=new Map(projetos.map(p=>[p.id,p]));a.forEach(p=>{if(p?.nome)map.set(p.id||id(),{...p,id:p.id||id()})});projetos=[...map.values()];store();render();toast("Backup restaurado.")}catch{alert("Backup inválido.")}e.target.value=""};r.readAsText(f)}
+function toast(t){let x=$("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove("show"),2400)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")fechar();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("busca").focus()}});
+load();
+</script>
+</body>
+</html>
