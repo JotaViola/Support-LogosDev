@@ -1,0 +1,4558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CondoSecure - Controle de Acesso</title>
+
+<style>
+:root{
+    --bg:#0b0f14;
+    --panel:#111720;
+    --panel2:#151d27;
+    --panel3:#1b2531;
+    --border:#263241;
+    --text:#f3f6f9;
+    --muted:#8d9aaa;
+    --primary:#3b82f6;
+    --primary2:#2563eb;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --cyan:#06b6d4;
+    --purple:#8b5cf6;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    background:#0d1219;
+    border-right:1px solid var(--border);
+    padding:20px 14px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:100;
+    overflow-y:auto;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:8px 10px 25px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    box-shadow:0 8px 25px rgba(37,99,235,.28);
+}
+
+.logo strong{
+    display:block;
+    font-size:17px;
+}
+
+.logo span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.nav-title{
+    color:#566273;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    padding:15px 12px 8px;
+}
+
+.nav-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:0;
+    background:transparent;
+    color:#9ba7b6;
+    padding:11px 12px;
+    border-radius:9px;
+    margin-bottom:3px;
+    text-align:left;
+    transition:.2s;
+}
+
+.nav-btn:hover{
+    background:#161e28;
+    color:#fff;
+}
+
+.nav-btn.active{
+    background:rgba(59,130,246,.14);
+    color:#60a5fa;
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    margin-top:25px;
+    padding:12px;
+    border-top:1px solid var(--border);
+}
+
+.system-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    color:#9ba7b6;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--success);
+    box-shadow:0 0 10px var(--success);
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    min-width:0;
+}
+
+.topbar{
+    height:68px;
+    background:rgba(13,18,25,.9);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(14px);
+}
+
+.page-title{
+    font-size:18px;
+    font-weight:650;
+}
+
+.page-subtitle{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.clock{
+    padding-right:15px;
+    border-right:1px solid var(--border);
+    font-size:13px;
+    color:#cbd5e1;
+}
+
+.operator{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding-left:4px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#334155,#64748b);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
+
+.content{
+    padding:25px 28px 40px;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* DASHBOARD */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:18px;
+    position:relative;
+    overflow:hidden;
+}
+
+.stat::after{
+    content:"";
+    position:absolute;
+    right:-30px;
+    top:-30px;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:rgba(59,130,246,.05);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.stat-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(59,130,246,.12);
+    color:#60a5fa;
+}
+
+.stat-value{
+    font-size:27px;
+    font-weight:700;
+    margin-top:12px;
+}
+
+.stat-footer{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+}
+
+.panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.panel-header{
+    min-height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-header h3{
+    font-size:14px;
+}
+
+.panel-header span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.panel-body{
+    padding:16px;
+}
+
+/* CAMERAS */
+
+.camera-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.camera{
+    background:#090d12;
+    border:1px solid #202a36;
+    border-radius:9px;
+    overflow:hidden;
+    position:relative;
+    min-height:170px;
+}
+
+.camera-screen{
+    height:145px;
+    background:
+        radial-gradient(circle at 50% 35%,rgba(80,100,120,.14),transparent 28%),
+        linear-gradient(135deg,#0d131a,#080b10);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.camera-screen::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 3px,
+        rgba(255,255,255,.018) 4px
+    );
+}
+
+.camera-preview{
+    color:#354150;
+    font-size:28px;
+}
+
+.camera-info{
+    position:absolute;
+    left:10px;
+    right:10px;
+    top:9px;
+    display:flex;
+    justify-content:space-between;
+    z-index:2;
+}
+
+.camera-name{
+    font-size:11px;
+    background:rgba(0,0,0,.65);
+    padding:4px 7px;
+    border-radius:5px;
+}
+
+.live{
+    font-size:9px;
+    background:rgba(34,197,94,.15);
+    color:#4ade80;
+    padding:4px 6px;
+    border-radius:5px;
+}
+
+.camera-bottom{
+    padding:9px 10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.camera-location{
+    font-size:10px;
+    color:var(--muted);
+}
+
+/* GATES */
+
+.gates{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.gate{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:15px;
+    background:var(--panel2);
+}
+
+.gate-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.gate-title strong{
+    font-size:13px;
+}
+
+.status-badge{
+    font-size:9px;
+    padding:4px 7px;
+    border-radius:5px;
+    font-weight:600;
+}
+
+.status-open{
+    color:#4ade80;
+    background:rgba(34,197,94,.12);
+}
+
+.status-closed{
+    color:#94a3b8;
+    background:rgba(148,163,184,.1);
+}
+
+.status-warning{
+    color:#fbbf24;
+    background:rgba(245,158,11,.12);
+}
+
+.gate-status{
+    font-size:24px;
+    font-weight:700;
+    margin:17px 0 12px;
+}
+
+.gate-actions{
+    display:flex;
+    gap:7px;
+}
+
+.btn{
+    border:0;
+    border-radius:7px;
+    padding:9px 13px;
+    color:#fff;
+    background:#202b38;
+    font-size:11px;
+    transition:.2s;
+}
+
+.btn:hover{
+    filter:brightness(1.18);
+}
+
+.btn-primary{
+    background:var(--primary2);
+}
+
+.btn-success{
+    background:#15803d;
+}
+
+.btn-danger{
+    background:#b91c1c;
+}
+
+.btn-warning{
+    background:#b45309;
+}
+
+.btn-ghost{
+    background:transparent;
+    border:1px solid var(--border);
+    color:#aeb9c7;
+}
+
+.btn-sm{
+    padding:7px 10px;
+    font-size:10px;
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    color:#718096;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    font-weight:600;
+    padding:11px 14px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:12px 14px;
+    font-size:11px;
+    border-bottom:1px solid rgba(38,50,65,.65);
+}
+
+tr:last-child td{
+    border-bottom:0;
+}
+
+.person{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.person-avatar{
+    width:29px;
+    height:29px;
+    border-radius:7px;
+    background:#273448;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#93c5fd;
+    font-size:11px;
+    font-weight:600;
+}
+
+.muted{
+    color:var(--muted);
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 7px;
+    border-radius:5px;
+    font-size:9px;
+    font-weight:600;
+}
+
+.badge-blue{
+    background:rgba(59,130,246,.13);
+    color:#60a5fa;
+}
+
+.badge-green{
+    background:rgba(34,197,94,.12);
+    color:#4ade80;
+}
+
+.badge-red{
+    background:rgba(239,68,68,.12);
+    color:#f87171;
+}
+
+.badge-orange{
+    background:rgba(245,158,11,.12);
+    color:#fbbf24;
+}
+
+/* PAGE TOOLBAR */
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.toolbar-left,
+.toolbar-right{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.search{
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:#fff;
+    border-radius:7px;
+    padding:9px 12px;
+    width:240px;
+    outline:none;
+    font-size:11px;
+}
+
+.search:focus{
+    border-color:#3b82f6;
+}
+
+.select{
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:#dbe4ee;
+    border-radius:7px;
+    padding:9px 12px;
+    outline:none;
+    font-size:11px;
+}
+
+/* CARDS */
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.entity-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:11px;
+    padding:17px;
+}
+
+.entity-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.entity-person{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.big-avatar{
+    width:44px;
+    height:44px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#1e3a5f,#25344a);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#93c5fd;
+    font-weight:700;
+}
+
+.entity-name{
+    font-size:13px;
+    font-weight:650;
+}
+
+.entity-sub{
+    font-size:10px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.entity-info{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.info-box{
+    background:#0d131a;
+    border-radius:7px;
+    padding:9px;
+}
+
+.info-label{
+    font-size:9px;
+    color:#697789;
+}
+
+.info-value{
+    font-size:10px;
+    margin-top:4px;
+}
+
+.entity-actions{
+    display:flex;
+    gap:7px;
+    margin-top:14px;
+}
+
+/* CAMERA MANAGEMENT */
+
+.camera-management{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.camera-management .camera{
+    min-height:220px;
+}
+
+.camera-management .camera-screen{
+    height:170px;
+}
+
+/* EMPTY */
+
+.empty{
+    text-align:center;
+    padding:45px 20px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:32px;
+    opacity:.5;
+    margin-bottom:10px;
+}
+
+.empty p{
+    font-size:12px;
+}
+
+/* MODAL */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    padding:20px;
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:min(650px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#111820;
+    border:1px solid var(--border);
+    border-radius:13px;
+    box-shadow:var(--shadow);
+}
+
+.modal-header{
+    padding:17px 20px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h2{
+    font-size:15px;
+}
+
+.close{
+    width:30px;
+    height:30px;
+    border:0;
+    background:#202a35;
+    color:#aab6c5;
+    border-radius:7px;
+    font-size:17px;
+}
+
+.modal-body{
+    padding:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    font-size:10px;
+    color:#8996a6;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    background:#0b1016;
+    border:1px solid #273342;
+    color:#fff;
+    border-radius:7px;
+    padding:10px;
+    outline:none;
+    font-size:11px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:#3b82f6;
+}
+
+.form-group textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+.modal-footer{
+    padding:14px 20px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+}
+
+/* TOAST */
+
+.toast-container{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:2000;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.toast{
+    min-width:270px;
+    max-width:360px;
+    background:#18212c;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    padding:13px 15px;
+    border-radius:9px;
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    animation:toastIn .25s ease;
+}
+
+.toast-icon{
+    font-size:15px;
+}
+
+.toast-title{
+    font-size:11px;
+    font-weight:650;
+}
+
+.toast-text{
+    color:#8f9cac;
+    font-size:10px;
+    margin-top:3px;
+}
+
+@keyframes toastIn{
+    from{
+        transform:translateY(15px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+    border:0;
+    background:transparent;
+    color:#fff;
+    font-size:22px;
+}
+
+@media(max-width:1100px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .card-grid,
+    .camera-management{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:760px){
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:18px 14px 30px;
+    }
+
+    .stats,
+    .camera-grid,
+    .gates,
+    .card-grid,
+    .camera-management{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+        width:100%;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .clock{
+        display:none;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🛡️</div>
+            <div>
+                <strong>CondoSecure</strong>
+                <span>Controle de Segurança</span>
+            </div>
+        </div>
+
+        <div class="nav-title">Principal</div>
+
+        <button class="nav-btn active" data-page="dashboard">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </button>
+
+        <button class="nav-btn" data-page="acessos">
+            <span class="nav-icon">⇄</span>
+            Controle de Acessos
+        </button>
+
+        <div class="nav-title">Cadastros</div>
+
+        <button class="nav-btn" data-page="moradores">
+            <span class="nav-icon">♙</span>
+            Moradores
+        </button>
+
+        <button class="nav-btn" data-page="visitantes">
+            <span class="nav-icon">♙</span>
+            Visitantes
+        </button>
+
+        <button class="nav-btn" data-page="veiculos">
+            <span class="nav-icon">▱</span>
+            Veículos
+        </button>
+
+        <div class="nav-title">Equipamentos</div>
+
+        <button class="nav-btn" data-page="cameras">
+            <span class="nav-icon">◉</span>
+            Câmeras
+        </button>
+
+        <button class="nav-btn" data-page="portoes">
+            <span class="nav-icon">↕</span>
+            Portões
+        </button>
+
+        <button class="nav-btn" data-page="catracas">
+            <span class="nav-icon">↔</span>
+            Catracas
+        </button>
+
+        <div class="nav-title">Monitoramento</div>
+
+        <button class="nav-btn" data-page="historico">
+            <span class="nav-icon">☷</span>
+            Histórico
+        </button>
+
+        <button class="nav-btn" data-page="eventos">
+            <span class="nav-icon">⚠</span>
+            Eventos
+        </button>
+
+        <div class="nav-title">Sistema</div>
+
+        <button class="nav-btn" data-page="configuracoes">
+            <span class="nav-icon">⚙</span>
+            Configurações
+        </button>
+
+        <div class="sidebar-bottom">
+            <div class="system-status">
+                <span class="dot"></span>
+                Sistema operacional
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:12px;">
+                <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+
+                <div>
+                    <div class="page-title" id="pageTitle">
+                        Dashboard
+                    </div>
+                    <div class="page-subtitle" id="pageSubtitle">
+                        Visão geral do sistema de segurança
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="clock" id="clock">
+                    00/00/0000 00:00:00
+                </div>
+
+                <div class="operator">
+                    <div class="avatar">OP</div>
+                    <div>
+                        <div style="font-size:11px;">Operador</div>
+                        <div style="font-size:9px;color:var(--muted);">Portaria</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <div class="content">
+
+            <!-- DASHBOARD -->
+            <section class="page active" id="page-dashboard">
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <div class="stat-top">
+                            <span>Moradores</span>
+                            <div class="stat-icon">♙</div>
+                        </div>
+                        <div class="stat-value" id="statMoradores">0</div>
+                        <div class="stat-footer">cadastros ativos</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-top">
+                            <span>Visitantes hoje</span>
+                            <div class="stat-icon">♙</div>
+                        </div>
+                        <div class="stat-value" id="statVisitantes">0</div>
+                        <div class="stat-footer">registros de visita</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-top">
+                            <span>Câmeras</span>
+                            <div class="stat-icon">◉</div>
+                        </div>
+                        <div class="stat-value" id="statCameras">0</div>
+                        <div class="stat-footer">equipamentos cadastrados</div>
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-top">
+                            <span>Acessos hoje</span>
+                            <div class="stat-icon">⇄</div>
+                        </div>
+                        <div class="stat-value" id="statAcessos">0</div>
+                        <div class="stat-footer">entradas e saídas</div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Câmeras de Segurança</h3>
+                                <span>Monitoramento</span>
+                            </div>
+
+                            <button class="btn btn-sm btn-ghost" onclick="showPage('cameras')">
+                                Ver todas
+                            </button>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="camera-grid" id="dashboardCameras"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Controle de Portões</h3>
+                                <span>Acesso veicular</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="gates" id="dashboardGates"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="dashboard-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Últimos Acessos</h3>
+                                <span>Movimentações recentes</span>
+                            </div>
+
+                            <button class="btn btn-sm btn-ghost" onclick="showPage('historico')">
+                                Histórico
+                            </button>
+                        </div>
+
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Horário</th>
+                                        <th>Pessoa</th>
+                                        <th>Tipo</th>
+                                        <th>Local</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashboardAccess"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <div>
+                                <h3>Status das Catracas</h3>
+                                <span>Acesso pedestre</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div id="dashboardTurnstiles"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- ACESSOS -->
+            <section class="page" id="page-acessos">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="accessSearch"
+                            placeholder="Buscar pessoa, placa ou apartamento..."
+                            oninput="renderAccessPage()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+                        <button class="btn btn-success" onclick="quickAccess('Entrada')">
+                            + Registrar entrada
+                        </button>
+
+                        <button class="btn btn-primary" onclick="quickAccess('Saída')">
+                            Registrar saída
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Controle de Acessos</h3>
+                            <span>Registro de entradas e saídas</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Pessoa</th>
+                                    <th>Tipo</th>
+                                    <th>Apartamento</th>
+                                    <th>Veículo</th>
+                                    <th>Local</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accessTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- MORADORES -->
+            <section class="page" id="page-moradores">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="residentSearch"
+                            placeholder="Buscar morador..."
+                            oninput="renderResidents()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="openResidentModal()">
+                            + Novo morador
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="card-grid" id="residentGrid"></div>
+
+            </section>
+
+            <!-- VISITANTES -->
+            <section class="page" id="page-visitantes">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="visitorSearch"
+                            placeholder="Buscar visitante..."
+                            oninput="renderVisitors()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="openVisitorModal()">
+                            + Novo visitante
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Visitantes</h3>
+                            <span>Controle de visitantes autorizados</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Visitante</th>
+                                    <th>Documento</th>
+                                    <th>Morador</th>
+                                    <th>Apartamento</th>
+                                    <th>Data</th>
+                                    <th>Entrada</th>
+                                    <th>Saída</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="visitorTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- VEICULOS -->
+            <section class="page" id="page-veiculos">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="vehicleSearch"
+                            placeholder="Buscar placa, modelo ou proprietário..."
+                            oninput="renderVehicles()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="openVehicleModal()">
+                            + Novo veículo
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Veículos cadastrados</h3>
+                            <span>Controle de acesso veicular</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Placa</th>
+                                    <th>Proprietário</th>
+                                    <th>Apartamento</th>
+                                    <th>Modelo</th>
+                                    <th>Cor</th>
+                                    <th>Vaga</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="vehicleTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CAMERAS -->
+            <section class="page" id="page-cameras">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="cameraSearch"
+                            placeholder="Buscar câmera..."
+                            oninput="renderCameras()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="openCameraModal()">
+                            + Nova câmera
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="camera-management" id="cameraGrid"></div>
+
+            </section>
+
+            <!-- PORTOES -->
+            <section class="page" id="page-portoes">
+
+                <div class="toolbar">
+                    <div>
+                        <h3 style="font-size:15px;">Controle de Portões</h3>
+                        <div class="muted" style="font-size:10px;margin-top:4px;">
+                            Controle manual dos acessos veiculares
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openGateModal()">
+                        + Novo portão
+                    </button>
+                </div>
+
+                <div class="card-grid" id="gateGrid"></div>
+
+            </section>
+
+            <!-- CATRACAS -->
+            <section class="page" id="page-catracas">
+
+                <div class="toolbar">
+                    <div>
+                        <h3 style="font-size:15px;">Controle de Catracas</h3>
+                        <div class="muted" style="font-size:10px;margin-top:4px;">
+                            Controle de acesso de pedestres
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="openTurnstileModal()">
+                        + Nova catraca
+                    </button>
+                </div>
+
+                <div class="card-grid" id="turnstileGrid"></div>
+
+            </section>
+
+            <!-- HISTORICO -->
+            <section class="page" id="page-historico">
+
+                <div class="toolbar">
+
+                    <div class="toolbar-left">
+                        <input
+                            class="search"
+                            id="historySearch"
+                            placeholder="Buscar no histórico..."
+                            oninput="renderHistory()"
+                        >
+                    </div>
+
+                    <div class="toolbar-right">
+
+                        <select class="select" id="historyFilter" onchange="renderHistory()">
+                            <option value="Todos">Todos</option>
+                            <option value="Entrada">Entrada</option>
+                            <option value="Saída">Saída</option>
+                            <option value="Portão">Portão</option>
+                            <option value="Catraca">Catraca</option>
+                            <option value="Sistema">Sistema</option>
+                        </select>
+
+                        <button class="btn btn-ghost" onclick="exportBackup()">
+                            Exportar
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Histórico do Sistema</h3>
+                            <span>Todos os eventos registrados</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Evento</th>
+                                    <th>Descrição</th>
+                                    <th>Operador</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="historyTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- EVENTOS -->
+            <section class="page" id="page-eventos">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Central de Eventos</h3>
+                            <span>Alertas e ocorrências</span>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Horário</th>
+                                    <th>Tipo</th>
+                                    <th>Evento</th>
+                                    <th>Equipamento</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eventTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CONFIG -->
+            <section class="page" id="page-configuracoes">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Configurações</h3>
+                            <span>Configurações do sistema</span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+
+                            <div class="info-box">
+                                <div class="info-label">Armazenamento</div>
+                                <div class="info-value">
+                                    LocalStorage do navegador
+                                </div>
+                            </div>
+
+                            <div class="info-box">
+                                <div class="info-label">Modo</div>
+                                <div class="info-value">
+                                    Operação local
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+
+                            <button class="btn btn-primary" onclick="exportBackup()">
+                                Exportar backup
+                            </button>
+
+                            <button class="btn btn-ghost" onclick="document.getElementById('backupFile').click()">
+                                Importar backup
+                            </button>
+
+                            <input
+                                type="file"
+                                id="backupFile"
+                                accept=".json"
+                                style="display:none"
+                                onchange="importBackup(event)"
+                            >
+
+                            <button class="btn btn-danger" onclick="clearAllData()">
+                                Limpar todos os dados
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL MORADOR -->
+
+<div class="modal-overlay" id="residentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2 id="residentModalTitle">Novo morador</h2>
+            <button class="close" onclick="closeModal('residentModal')">×</button>
+        </div>
+
+        <form id="residentForm" onsubmit="saveResident(event)">
+
+            <div class="modal-body">
+
+                <input type="hidden" id="residentId">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Nome completo</label>
+                        <input id="residentName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>CPF</label>
+                        <input id="residentCpf">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input id="residentPhone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bloco</label>
+                        <input id="residentBlock">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Apartamento</label>
+                        <input id="residentApartment" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input id="residentEmail" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="residentStatus">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Inativo">Inativo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" onclick="closeModal('residentModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar morador
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL VISITANTE -->
+
+<div class="modal-overlay" id="visitorModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2 id="visitorModalTitle">Novo visitante</h2>
+            <button class="close" onclick="closeModal('visitorModal')">×</button>
+        </div>
+
+        <form id="visitorForm" onsubmit="saveVisitor(event)">
+
+            <div class="modal-body">
+
+                <input type="hidden" id="visitorId">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+                        <label>Nome completo</label>
+                        <input id="visitorName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Documento</label>
+                        <input id="visitorDocument">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input id="visitorPhone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Morador</label>
+                        <select id="visitorResident" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data da visita</label>
+                        <input type="date" id="visitorDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Horário previsto</label>
+                        <input type="time" id="visitorTime">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Veículo / placa</label>
+                        <input id="visitorVehicle">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Observação</label>
+                        <textarea id="visitorNote"></textarea>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-ghost" onclick="closeModal('visitorModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar visitante
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL VEICULO -->
+
+<div class="modal-overlay" id="vehicleModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Novo veículo</h2>
+            <button class="close" onclick="closeModal('vehicleModal')">×</button>
+        </div>
+
+        <form onsubmit="saveVehicle(event)">
+
+            <div class="modal-body">
+
+                <input type="hidden" id="vehicleId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Placa</label>
+                        <input id="vehiclePlate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Proprietário</label>
+                        <input id="vehicleOwner" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Apartamento</label>
+                        <input id="vehicleApartment">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Modelo</label>
+                        <input id="vehicleModel">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cor</label>
+                        <input id="vehicleColor">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Vaga</label>
+                        <input id="vehicleSpot">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-ghost" onclick="closeModal('vehicleModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar veículo
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL CAMERA -->
+
+<div class="modal-overlay" id="cameraModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Nova câmera</h2>
+            <button class="close" onclick="closeModal('cameraModal')">×</button>
+        </div>
+
+        <form onsubmit="saveCamera(event)">
+
+            <div class="modal-body">
+
+                <input type="hidden" id="cameraId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nome da câmera</label>
+                        <input id="cameraName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Localização</label>
+                        <input id="cameraLocation" required>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>URL / IP da câmera</label>
+                        <input id="cameraUrl" placeholder="Ex.: rtsp://192.168.1.100...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="cameraType">
+                            <option>IP Camera</option>
+                            <option>RTSP</option>
+                            <option>HTTP</option>
+                            <option>ONVIF</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="cameraStatus">
+                            <option value="Online">Online</option>
+                            <option value="Offline">Offline</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-ghost" onclick="closeModal('cameraModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar câmera
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL PORTAO -->
+
+<div class="modal-overlay" id="gateModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Novo portão</h2>
+            <button class="close" onclick="closeModal('gateModal')">×</button>
+        </div>
+
+        <form onsubmit="saveGate(event)">
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input id="gateName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <select id="gateType">
+                            <option>Entrada</option>
+                            <option>Saída</option>
+                            <option>Entrada e saída</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Localização</label>
+                        <input id="gateLocation">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Controladora</label>
+                        <input id="gateController">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-ghost" onclick="closeModal('gateModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar portão
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL CATRACA -->
+
+<div class="modal-overlay" id="turnstileModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Nova catraca</h2>
+            <button class="close" onclick="closeModal('turnstileModal')">×</button>
+        </div>
+
+        <form onsubmit="saveTurnstile(event)">
+
+            <div class="modal-body">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input id="turnstileName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Direção</label>
+                        <select id="turnstileDirection">
+                            <option>Entrada</option>
+                            <option>Saída</option>
+                            <option>Bidirecional</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Localização</label>
+                        <input id="turnstileLocation">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Controladora</label>
+                        <input id="turnstileController">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-ghost" onclick="closeModal('turnstileModal')">
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary">
+                    Salvar catraca
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+<script>
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY = "condosecure_data_v1";
+
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    residents: [],
+    visitors: [],
+    vehicles: [],
+    cameras: [],
+    gates: [],
+    turnstiles: [],
+    accesses: [],
+    history: [],
+    events: []
+};
+
+function saveData(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function uid(prefix="id"){
+    return prefix + "_" + Date.now() + "_" + Math.random().toString(36).slice(2,7);
+}
+
+
+/* =========================================================
+   DATA DEMO
+========================================================= */
+
+function initializeDemo(){
+
+    if(data.residents.length === 0){
+
+        data.residents = [
+            {
+                id:uid("mor"),
+                name:"João Silva",
+                cpf:"123.456.789-00",
+                phone:"(11) 99999-1111",
+                block:"A",
+                apartment:"102",
+                email:"joao@email.com",
+                status:"Ativo"
+            },
+            {
+                id:uid("mor"),
+                name:"Maria Oliveira",
+                cpf:"987.654.321-00",
+                phone:"(11) 98888-2222",
+                block:"B",
+                apartment:"204",
+                email:"maria@email.com",
+                status:"Ativo"
+            },
+            {
+                id:uid("mor"),
+                name:"Carlos Santos",
+                cpf:"555.222.111-00",
+                phone:"(11) 97777-3333",
+                block:"A",
+                apartment:"305",
+                email:"carlos@email.com",
+                status:"Ativo"
+            }
+        ];
+    }
+
+    if(data.cameras.length === 0){
+
+        data.cameras = [
+            {
+                id:uid("cam"),
+                name:"CAM 01",
+                location:"Entrada principal",
+                url:"",
+                type:"IP Camera",
+                status:"Online"
+            },
+            {
+                id:uid("cam"),
+                name:"CAM 02",
+                location:"Garagem",
+                url:"",
+                type:"IP Camera",
+                status:"Online"
+            },
+            {
+                id:uid("cam"),
+                name:"CAM 03",
+                location:"Portão de saída",
+                url:"",
+                type:"IP Camera",
+                status:"Online"
+            },
+            {
+                id:uid("cam"),
+                name:"CAM 04",
+                location:"Área externa",
+                url:"",
+                type:"IP Camera",
+                status:"Offline"
+            }
+        ];
+    }
+
+    if(data.gates.length === 0){
+
+        data.gates = [
+            {
+                id:uid("gate"),
+                name:"Portão Entrada",
+                type:"Entrada",
+                location:"Entrada principal",
+                controller:"CTRL-001",
+                status:"Fechado"
+            },
+            {
+                id:uid("gate"),
+                name:"Portão Saída",
+                type:"Saída",
+                location:"Saída principal",
+                controller:"CTRL-002",
+                status:"Fechado"
+            }
+        ];
+    }
+
+    if(data.turnstiles.length === 0){
+
+        data.turnstiles = [
+            {
+                id:uid("cat"),
+                name:"Catraca 01",
+                direction:"Entrada",
+                location:"Hall principal",
+                controller:"CTRL-CAT-01",
+                status:"Bloqueada"
+            },
+            {
+                id:uid("cat"),
+                name:"Catraca 02",
+                direction:"Saída",
+                location:"Hall principal",
+                controller:"CTRL-CAT-02",
+                status:"Bloqueada"
+            }
+        ];
+    }
+
+    if(data.vehicles.length === 0){
+
+        data.vehicles = [
+            {
+                id:uid("car"),
+                plate:"ABC-1234",
+                owner:"João Silva",
+                apartment:"A-102",
+                model:"Honda Civic",
+                color:"Preto",
+                spot:"12"
+            },
+            {
+                id:uid("car"),
+                plate:"DEF-5678",
+                owner:"Maria Oliveira",
+                apartment:"B-204",
+                model:"Toyota Corolla",
+                color:"Prata",
+                spot:"27"
+            }
+        ];
+    }
+
+    saveData();
+}
+
+initializeDemo();
+
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function updateClock(){
+
+    const now = new Date();
+
+    const date = now.toLocaleDateString("pt-BR");
+    const time = now.toLocaleTimeString("pt-BR");
+
+    document.getElementById("clock").textContent =
+        date + " " + time;
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const pageNames = {
+
+    dashboard:[
+        "Dashboard",
+        "Visão geral do sistema de segurança"
+    ],
+
+    acessos:[
+        "Controle de Acessos",
+        "Entradas e saídas do condomínio"
+    ],
+
+    moradores:[
+        "Moradores",
+        "Cadastro de moradores"
+    ],
+
+    visitantes:[
+        "Visitantes",
+        "Controle de visitantes"
+    ],
+
+    veiculos:[
+        "Veículos",
+        "Cadastro de veículos"
+    ],
+
+    cameras:[
+        "Câmeras",
+        "Monitoramento e equipamentos"
+    ],
+
+    portoes:[
+        "Portões",
+        "Controle de acesso veicular"
+    ],
+
+    catracas:[
+        "Catracas",
+        "Controle de acesso pedestre"
+    ],
+
+    historico:[
+        "Histórico",
+        "Registro de eventos e movimentações"
+    ],
+
+    eventos:[
+        "Eventos",
+        "Central de alertas"
+    ],
+
+    configuracoes:[
+        "Configurações",
+        "Configurações do sistema"
+    ]
+};
+
+function showPage(page){
+
+    document.querySelectorAll(".page").forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav-btn").forEach(b=>{
+        b.classList.remove("active");
+    });
+
+    const target = document.getElementById("page-"+page);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    const nav = document.querySelector(`[data-page="${page}"]`);
+
+    if(nav){
+        nav.classList.add("active");
+    }
+
+    if(pageNames[page]){
+
+        document.getElementById("pageTitle").textContent =
+            pageNames[page][0];
+
+        document.getElementById("pageSubtitle").textContent =
+            pageNames[page][1];
+    }
+
+    renderAll();
+
+    document.getElementById("sidebar").classList.remove("open");
+}
+
+document.querySelectorAll(".nav-btn").forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        showPage(btn.dataset.page);
+
+    });
+
+});
+
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+    document.getElementById("statMoradores").textContent =
+        data.residents.filter(r=>r.status==="Ativo").length;
+
+    const today = new Date().toISOString().slice(0,10);
+
+    document.getElementById("statVisitantes").textContent =
+        data.visitors.filter(v=>v.date===today).length;
+
+    document.getElementById("statCameras").textContent =
+        data.cameras.length;
+
+    document.getElementById("statAcessos").textContent =
+        data.accesses.filter(a=>a.dateKey===today).length;
+
+    renderDashboardCameras();
+    renderDashboardGates();
+    renderDashboardAccess();
+    renderDashboardTurnstiles();
+}
+
+
+function renderDashboardCameras(){
+
+    const el = document.getElementById("dashboardCameras");
+
+    const cams = data.cameras.slice(0,4);
+
+    if(cams.length===0){
+
+        el.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">◉</div>
+                <p>Nenhuma câmera cadastrada.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = cams.map(cameraHTML).join("");
+}
+
+
+function cameraHTML(cam){
+
+    const online = cam.status==="Online";
+
+    return `
+        <div class="camera">
+
+            <div class="camera-screen">
+
+                <div class="camera-info">
+
+                    <span class="camera-name">
+                        ${escapeHTML(cam.name)}
+                    </span>
+
+                    <span class="${online ? "live" : "status-badge status-warning"}">
+                        ${online ? "● AO VIVO" : "OFFLINE"}
+                    </span>
+
+                </div>
+
+                <div class="camera-preview">
+                    ${online ? "◉" : "⊘"}
+                </div>
+
+            </div>
+
+            <div class="camera-bottom">
+
+                <span class="camera-location">
+                    ${escapeHTML(cam.location || "Sem localização")}
+                </span>
+
+                <button
+                    class="btn btn-sm btn-ghost"
+                    onclick="testCamera('${cam.id}')"
+                >
+                    Testar
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+function renderDashboardGates(){
+
+    const el = document.getElementById("dashboardGates");
+
+    el.innerHTML = data.gates.slice(0,4).map(gate => {
+
+        const open = gate.status==="Aberto";
+
+        return `
+            <div class="gate">
+
+                <div class="gate-title">
+
+                    <strong>${escapeHTML(gate.name)}</strong>
+
+                    <span class="status-badge ${open ? "status-open" : "status-closed"}">
+                        ${open ? "ABERTO" : "FECHADO"}
+                    </span>
+
+                </div>
+
+                <div class="gate-status">
+                    ${open ? "Aberto" : "Fechado"}
+                </div>
+
+                <div class="gate-actions">
+
+                    <button
+                        class="btn btn-success"
+                        onclick="toggleGate('${gate.id}')"
+                    >
+                        ${open ? "Fechar" : "Abrir"}
+                    </button>
+
+                    <button
+                        class="btn btn-ghost"
+                        onclick="gateDetails('${gate.id}')"
+                    >
+                        Detalhes
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function renderDashboardAccess(){
+
+    const el = document.getElementById("dashboardAccess");
+
+    const list = [...data.accesses]
+        .sort((a,b)=>b.timestamp-a.timestamp)
+        .slice(0,7);
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        <div class="empty-icon">⇄</div>
+                        <p>Nenhum acesso registrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(a=>{
+
+        return `
+            <tr>
+
+                <td>${formatDateTime(a.timestamp)}</td>
+
+                <td>
+                    <div class="person">
+                        <div class="person-avatar">
+                            ${initials(a.person)}
+                        </div>
+                        ${escapeHTML(a.person)}
+                    </div>
+                </td>
+
+                <td>
+                    <span class="badge ${a.personType==="Visitante" ? "badge-orange" : "badge-blue"}">
+                        ${a.personType}
+                    </span>
+                </td>
+
+                <td>${escapeHTML(a.location || "-")}</td>
+
+                <td>
+                    <span class="badge badge-green">
+                        ✓ Liberado
+                    </span>
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+function renderDashboardTurnstiles(){
+
+    const el = document.getElementById("dashboardTurnstiles");
+
+    if(data.turnstiles.length===0){
+
+        el.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">↔</div>
+                <p>Nenhuma catraca cadastrada.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = data.turnstiles.map(t=>{
+
+        const active = t.status==="Liberada";
+
+        return `
+            <div style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                padding:12px 0;
+                border-bottom:1px solid var(--border);
+            ">
+
+                <div>
+                    <div style="font-size:11px;font-weight:600;">
+                        ${escapeHTML(t.name)}
+                    </div>
+
+                    <div style="font-size:9px;color:var(--muted);margin-top:3px;">
+                        ${escapeHTML(t.direction)}
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:8px;">
+
+                    <span class="status-badge ${active ? "status-open" : "status-closed"}">
+                        ${active ? "LIBERADA" : "BLOQUEADA"}
+                    </span>
+
+                    <button
+                        class="btn btn-sm btn-ghost"
+                        onclick="toggleTurnstile('${t.id}')"
+                    >
+                        ${active ? "Bloquear" : "Liberar"}
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   MORADORES
+========================================================= */
+
+function openResidentModal(id=null){
+
+    document.getElementById("residentForm").reset();
+
+    document.getElementById("residentId").value = "";
+
+    if(id){
+
+        const r = data.residents.find(x=>x.id===id);
+
+        if(!r) return;
+
+        document.getElementById("residentModalTitle").textContent =
+            "Editar morador";
+
+        document.getElementById("residentId").value = r.id;
+        document.getElementById("residentName").value = r.name;
+        document.getElementById("residentCpf").value = r.cpf || "";
+        document.getElementById("residentPhone").value = r.phone || "";
+        document.getElementById("residentBlock").value = r.block || "";
+        document.getElementById("residentApartment").value = r.apartment || "";
+        document.getElementById("residentEmail").value = r.email || "";
+        document.getElementById("residentStatus").value = r.status || "Ativo";
+
+    }else{
+
+        document.getElementById("residentModalTitle").textContent =
+            "Novo morador";
+    }
+
+    openModal("residentModal");
+}
+
+
+function saveResident(event){
+
+    event.preventDefault();
+
+    const id = document.getElementById("residentId").value;
+
+    const obj = {
+
+        id:id || uid("mor"),
+
+        name:document.getElementById("residentName").value.trim(),
+
+        cpf:document.getElementById("residentCpf").value.trim(),
+
+        phone:document.getElementById("residentPhone").value.trim(),
+
+        block:document.getElementById("residentBlock").value.trim(),
+
+        apartment:document.getElementById("residentApartment").value.trim(),
+
+        email:document.getElementById("residentEmail").value.trim(),
+
+        status:document.getElementById("residentStatus").value
+    };
+
+    if(id){
+
+        const index = data.residents.findIndex(r=>r.id===id);
+
+        if(index!==-1){
+            data.residents[index] = obj;
+        }
+
+        toast("Morador atualizado","As informações foram salvas.");
+
+    }else{
+
+        data.residents.push(obj);
+
+        logHistory(
+            "Sistema",
+            "Novo morador",
+            `Morador ${obj.name} cadastrado.`
+        );
+
+        toast("Morador cadastrado","Cadastro realizado com sucesso.");
+    }
+
+    saveData();
+
+    closeModal("residentModal");
+
+    renderAll();
+}
+
+
+function renderResidents(){
+
+    const el = document.getElementById("residentGrid");
+
+    const q = (document.getElementById("residentSearch")?.value || "")
+        .toLowerCase();
+
+    const list = data.residents.filter(r=>{
+
+        return (
+            r.name.toLowerCase().includes(q) ||
+            r.apartment.toLowerCase().includes(q) ||
+            (r.cpf || "").toLowerCase().includes(q)
+        );
+
+    });
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">♙</div>
+                <p>Nenhum morador encontrado.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(r=>{
+
+        return `
+            <div class="entity-card">
+
+                <div class="entity-head">
+
+                    <div class="entity-person">
+
+                        <div class="big-avatar">
+                            ${initials(r.name)}
+                        </div>
+
+                        <div>
+
+                            <div class="entity-name">
+                                ${escapeHTML(r.name)}
+                            </div>
+
+                            <div class="entity-sub">
+                                ${escapeHTML(r.block ? "Bloco "+r.block+" • " : "")}
+                                Apto ${escapeHTML(r.apartment)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <span class="badge ${r.status==="Ativo" ? "badge-green" : "badge-red"}">
+                        ${r.status}
+                    </span>
+
+                </div>
+
+                <div class="entity-info">
+
+                    <div class="info-box">
+                        <div class="info-label">Telefone</div>
+                        <div class="info-value">
+                            ${escapeHTML(r.phone || "-")}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">CPF</div>
+                        <div class="info-value">
+                            ${escapeHTML(r.cpf || "-")}
+                        </div>
+                    </div>
+
+                    <div class="info-box" style="grid-column:1/-1;">
+                        <div class="info-label">E-mail</div>
+                        <div class="info-value">
+                            ${escapeHTML(r.email || "-")}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="entity-actions">
+
+                    <button
+                        class="btn btn-sm btn-primary"
+                        onclick="openResidentModal('${r.id}')"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn btn-sm btn-danger"
+                        onclick="deleteResident('${r.id}')"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function deleteResident(id){
+
+    const r = data.residents.find(x=>x.id===id);
+
+    if(!r) return;
+
+    if(!confirm(`Excluir o morador "${r.name}"?`)) return;
+
+    data.residents = data.residents.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Morador excluído",
+        `Morador ${r.name} foi removido.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Morador excluído","O cadastro foi removido.");
+}
+
+
+/* =========================================================
+   VISITANTES
+========================================================= */
+
+function openVisitorModal(id=null){
+
+    document.getElementById("visitorForm").reset();
+
+    document.getElementById("visitorId").value = "";
+
+    const select = document.getElementById("visitorResident");
+
+    select.innerHTML = `
+        <option value="">Selecione...</option>
+        ${data.residents
+            .filter(r=>r.status==="Ativo")
+            .map(r=>`
+                <option value="${r.id}">
+                    ${escapeHTML(r.name)} - ${escapeHTML(r.apartment)}
+                </option>
+            `).join("")
+        }
+    `;
+
+    if(id){
+
+        const v = data.visitors.find(x=>x.id===id);
+
+        if(!v) return;
+
+        document.getElementById("visitorModalTitle").textContent =
+            "Editar visitante";
+
+        document.getElementById("visitorId").value = v.id;
+        document.getElementById("visitorName").value = v.name;
+        document.getElementById("visitorDocument").value = v.document || "";
+        document.getElementById("visitorPhone").value = v.phone || "";
+        document.getElementById("visitorResident").value = v.residentId || "";
+        document.getElementById("visitorDate").value = v.date || "";
+        document.getElementById("visitorTime").value = v.time || "";
+        document.getElementById("visitorVehicle").value = v.vehicle || "";
+        document.getElementById("visitorNote").value = v.note || "";
+
+    }else{
+
+        document.getElementById("visitorModalTitle").textContent =
+            "Novo visitante";
+
+        document.getElementById("visitorDate").value =
+            new Date().toISOString().slice(0,10);
+    }
+
+    openModal("visitorModal");
+}
+
+
+function saveVisitor(event){
+
+    event.preventDefault();
+
+    const id = document.getElementById("visitorId").value;
+
+    const residentId =
+        document.getElementById("visitorResident").value;
+
+    const resident =
+        data.residents.find(r=>r.id===residentId);
+
+    const obj = {
+
+        id:id || uid("vis"),
+
+        name:document.getElementById("visitorName").value.trim(),
+
+        document:document.getElementById("visitorDocument").value.trim(),
+
+        phone:document.getElementById("visitorPhone").value.trim(),
+
+        residentId,
+
+        residentName:resident ? resident.name : "",
+
+        apartment:resident ? resident.apartment : "",
+
+        date:document.getElementById("visitorDate").value,
+
+        time:document.getElementById("visitorTime").value,
+
+        vehicle:document.getElementById("visitorVehicle").value.trim(),
+
+        note:document.getElementById("visitorNote").value.trim(),
+
+        status:"Autorizado",
+
+        entered:false
+    };
+
+    if(id){
+
+        const index = data.visitors.findIndex(v=>v.id===id);
+
+        if(index!==-1){
+            data.visitors[index] = {
+                ...data.visitors[index],
+                ...obj
+            };
+        }
+
+        toast("Visitante atualizado","Cadastro atualizado.");
+
+    }else{
+
+        data.visitors.push(obj);
+
+        logHistory(
+            "Sistema",
+            "Novo visitante",
+            `${obj.name} autorizado para ${obj.residentName || "morador"}.`
+        );
+
+        toast("Visitante cadastrado","Visitante autorizado.");
+    }
+
+    saveData();
+    closeModal("visitorModal");
+    renderAll();
+}
+
+
+function renderVisitors(){
+
+    const el = document.getElementById("visitorTable");
+
+    const q = (document.getElementById("visitorSearch")?.value || "")
+        .toLowerCase();
+
+    const list = data.visitors.filter(v=>{
+
+        return (
+            v.name.toLowerCase().includes(q) ||
+            (v.document || "").toLowerCase().includes(q) ||
+            (v.residentName || "").toLowerCase().includes(q) ||
+            (v.apartment || "").toLowerCase().includes(q)
+        );
+
+    }).sort((a,b)=>b.date.localeCompare(a.date));
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="9">
+                    <div class="empty">
+                        <div class="empty-icon">♙</div>
+                        <p>Nenhum visitante encontrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(v=>{
+
+        let status = v.entered ? "Dentro" : v.status;
+
+        return `
+            <tr>
+
+                <td>
+                    <div class="person">
+                        <div class="person-avatar">
+                            ${initials(v.name)}
+                        </div>
+                        ${escapeHTML(v.name)}
+                    </div>
+                </td>
+
+                <td>${escapeHTML(v.document || "-")}</td>
+
+                <td>${escapeHTML(v.residentName || "-")}</td>
+
+                <td>${escapeHTML(v.apartment || "-")}</td>
+
+                <td>${formatDate(v.date)}</td>
+
+                <td>${v.entryTime || "-"}</td>
+
+                <td>${v.exitTime || "-"}</td>
+
+                <td>
+                    <span class="badge ${
+                        status==="Dentro"
+                        ? "badge-green"
+                        : status==="Autorizado"
+                        ? "badge-blue"
+                        : "badge-red"
+                    }">
+                        ${status}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-sm btn-primary"
+                        onclick="openVisitorModal('${v.id}')"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn btn-sm btn-danger"
+                        onclick="deleteVisitor('${v.id}')"
+                    >
+                        ×
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+function deleteVisitor(id){
+
+    const v = data.visitors.find(x=>x.id===id);
+
+    if(!v) return;
+
+    if(!confirm(`Excluir o visitante "${v.name}"?`)) return;
+
+    data.visitors = data.visitors.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Visitante excluído",
+        `Visitante ${v.name} foi removido.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Visitante excluído","Cadastro removido.");
+}
+
+
+/* =========================================================
+   VEICULOS
+========================================================= */
+
+function openVehicleModal(id=null){
+
+    document.querySelector("#vehicleModal form").reset();
+
+    document.getElementById("vehicleId").value = "";
+
+    if(id){
+
+        const v = data.vehicles.find(x=>x.id===id);
+
+        if(!v) return;
+
+        document.getElementById("vehicleId").value = v.id;
+        document.getElementById("vehiclePlate").value = v.plate;
+        document.getElementById("vehicleOwner").value = v.owner;
+        document.getElementById("vehicleApartment").value = v.apartment || "";
+        document.getElementById("vehicleModel").value = v.model || "";
+        document.getElementById("vehicleColor").value = v.color || "";
+        document.getElementById("vehicleSpot").value = v.spot || "";
+    }
+
+    openModal("vehicleModal");
+}
+
+
+function saveVehicle(event){
+
+    event.preventDefault();
+
+    const id = document.getElementById("vehicleId").value;
+
+    const obj = {
+
+        id:id || uid("car"),
+
+        plate:document.getElementById("vehiclePlate").value
+            .trim()
+            .toUpperCase(),
+
+        owner:document.getElementById("vehicleOwner").value.trim(),
+
+        apartment:document.getElementById("vehicleApartment").value.trim(),
+
+        model:document.getElementById("vehicleModel").value.trim(),
+
+        color:document.getElementById("vehicleColor").value.trim(),
+
+        spot:document.getElementById("vehicleSpot").value.trim()
+    };
+
+    if(id){
+
+        const index = data.vehicles.findIndex(v=>v.id===id);
+
+        if(index!==-1){
+            data.vehicles[index] = obj;
+        }
+
+        toast("Veículo atualizado","Cadastro atualizado.");
+
+    }else{
+
+        data.vehicles.push(obj);
+
+        logHistory(
+            "Sistema",
+            "Novo veículo",
+            `${obj.plate} cadastrado para ${obj.owner}.`
+        );
+
+        toast("Veículo cadastrado","Cadastro realizado.");
+    }
+
+    saveData();
+    closeModal("vehicleModal");
+    renderAll();
+}
+
+
+function renderVehicles(){
+
+    const el = document.getElementById("vehicleTable");
+
+    const q = (document.getElementById("vehicleSearch")?.value || "")
+        .toLowerCase();
+
+    const list = data.vehicles.filter(v=>{
+
+        return (
+            v.plate.toLowerCase().includes(q) ||
+            v.owner.toLowerCase().includes(q) ||
+            (v.model || "").toLowerCase().includes(q)
+        );
+
+    });
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="8">
+                    <div class="empty">
+                        <div class="empty-icon">▱</div>
+                        <p>Nenhum veículo encontrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(v=>{
+
+        return `
+            <tr>
+
+                <td>
+                    <strong style="font-size:12px;">
+                        ${escapeHTML(v.plate)}
+                    </strong>
+                </td>
+
+                <td>${escapeHTML(v.owner)}</td>
+
+                <td>${escapeHTML(v.apartment || "-")}</td>
+
+                <td>${escapeHTML(v.model || "-")}</td>
+
+                <td>${escapeHTML(v.color || "-")}</td>
+
+                <td>${escapeHTML(v.spot || "-")}</td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Ativo
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-sm btn-primary"
+                        onclick="openVehicleModal('${v.id}')"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn btn-sm btn-danger"
+                        onclick="deleteVehicle('${v.id}')"
+                    >
+                        ×
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+function deleteVehicle(id){
+
+    const v = data.vehicles.find(x=>x.id===id);
+
+    if(!v) return;
+
+    if(!confirm(`Excluir o veículo ${v.plate}?`)) return;
+
+    data.vehicles = data.vehicles.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Veículo excluído",
+        `${v.plate} foi removido.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Veículo excluído","Cadastro removido.");
+}
+
+
+/* =========================================================
+   CAMERAS
+========================================================= */
+
+function openCameraModal(id=null){
+
+    document.querySelector("#cameraModal form").reset();
+
+    document.getElementById("cameraId").value = "";
+
+    if(id){
+
+        const c = data.cameras.find(x=>x.id===id);
+
+        if(!c) return;
+
+        document.getElementById("cameraId").value = c.id;
+        document.getElementById("cameraName").value = c.name;
+        document.getElementById("cameraLocation").value = c.location;
+        document.getElementById("cameraUrl").value = c.url || "";
+        document.getElementById("cameraType").value = c.type || "IP Camera";
+        document.getElementById("cameraStatus").value = c.status || "Online";
+    }
+
+    openModal("cameraModal");
+}
+
+
+function saveCamera(event){
+
+    event.preventDefault();
+
+    const id = document.getElementById("cameraId").value;
+
+    const obj = {
+
+        id:id || uid("cam"),
+
+        name:document.getElementById("cameraName").value.trim(),
+
+        location:document.getElementById("cameraLocation").value.trim(),
+
+        url:document.getElementById("cameraUrl").value.trim(),
+
+        type:document.getElementById("cameraType").value,
+
+        status:document.getElementById("cameraStatus").value
+    };
+
+    if(id){
+
+        const index = data.cameras.findIndex(c=>c.id===id);
+
+        if(index!==-1){
+            data.cameras[index] = obj;
+        }
+
+        toast("Câmera atualizada","Cadastro atualizado.");
+
+    }else{
+
+        data.cameras.push(obj);
+
+        logHistory(
+            "Sistema",
+            "Nova câmera",
+            `${obj.name} cadastrada em ${obj.location}.`
+        );
+
+        toast("Câmera cadastrada","Equipamento adicionado.");
+    }
+
+    saveData();
+    closeModal("cameraModal");
+    renderAll();
+}
+
+
+function renderCameras(){
+
+    const el = document.getElementById("cameraGrid");
+
+    const q = (document.getElementById("cameraSearch")?.value || "")
+        .toLowerCase();
+
+    const list = data.cameras.filter(c=>{
+
+        return (
+            c.name.toLowerCase().includes(q) ||
+            (c.location || "").toLowerCase().includes(q)
+        );
+
+    });
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">◉</div>
+                <p>Nenhuma câmera encontrada.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(c=>{
+
+        return `
+            <div>
+
+                ${cameraHTML(c)}
+
+                <div style="
+                    display:flex;
+                    gap:6px;
+                    margin-top:7px;
+                ">
+
+                    <button
+                        class="btn btn-sm btn-primary"
+                        onclick="openCameraModal('${c.id}')"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn btn-sm btn-danger"
+                        onclick="deleteCamera('${c.id}')"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function deleteCamera(id){
+
+    const c = data.cameras.find(x=>x.id===id);
+
+    if(!c) return;
+
+    if(!confirm(`Excluir a câmera "${c.name}"?`)) return;
+
+    data.cameras = data.cameras.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Câmera excluída",
+        `${c.name} foi removida.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Câmera excluída","Equipamento removido.");
+}
+
+
+function testCamera(id){
+
+    const c = data.cameras.find(x=>x.id===id);
+
+    if(!c) return;
+
+    if(c.status==="Online"){
+
+        toast(
+            "Câmera online",
+            `${c.name} está marcada como operacional.`
+        );
+
+    }else{
+
+        toast(
+            "Câmera offline",
+            `${c.name} está marcada como offline.`
+        );
+    }
+}
+
+
+/* =========================================================
+   PORTÕES
+========================================================= */
+
+function openGateModal(){
+
+    document.querySelector("#gateModal form").reset();
+
+    openModal("gateModal");
+}
+
+
+function saveGate(event){
+
+    event.preventDefault();
+
+    const obj = {
+
+        id:uid("gate"),
+
+        name:document.getElementById("gateName").value.trim(),
+
+        type:document.getElementById("gateType").value,
+
+        location:document.getElementById("gateLocation").value.trim(),
+
+        controller:document.getElementById("gateController").value.trim(),
+
+        status:"Fechado"
+    };
+
+    data.gates.push(obj);
+
+    logHistory(
+        "Sistema",
+        "Novo portão",
+        `${obj.name} cadastrado.`
+    );
+
+    saveData();
+    closeModal("gateModal");
+    renderAll();
+
+    toast("Portão cadastrado","Equipamento adicionado.");
+}
+
+
+function renderGates(){
+
+    const el = document.getElementById("gateGrid");
+
+    if(data.gates.length===0){
+
+        el.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">↕</div>
+                <p>Nenhum portão cadastrado.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = data.gates.map(g=>{
+
+        const open = g.status==="Aberto";
+
+        return `
+            <div class="entity-card">
+
+                <div class="entity-head">
+
+                    <div class="entity-person">
+
+                        <div class="big-avatar">
+                            🚗
+                        </div>
+
+                        <div>
+
+                            <div class="entity-name">
+                                ${escapeHTML(g.name)}
+                            </div>
+
+                            <div class="entity-sub">
+                                ${escapeHTML(g.type)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <span class="status-badge ${open ? "status-open" : "status-closed"}">
+                        ${open ? "ABERTO" : "FECHADO"}
+                    </span>
+
+                </div>
+
+                <div class="entity-info">
+
+                    <div class="info-box">
+                        <div class="info-label">Localização</div>
+                        <div class="info-value">
+                            ${escapeHTML(g.location || "-")}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Controladora</div>
+                        <div class="info-value">
+                            ${escapeHTML(g.controller || "-")}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="entity-actions">
+
+                    <button
+                        class="btn btn-success"
+                        onclick="toggleGate('${g.id}')"
+                    >
+                        ${open ? "Fechar portão" : "Abrir portão"}
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteGate('${g.id}')"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function toggleGate(id){
+
+    const g = data.gates.find(x=>x.id===id);
+
+    if(!g) return;
+
+    const opening = g.status !== "Aberto";
+
+    g.status = opening ? "Aberto" : "Fechado";
+
+    logHistory(
+        "Portão",
+        opening ? "Portão aberto" : "Portão fechado",
+        `${g.name} foi ${opening ? "aberto" : "fechado"} pelo operador.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast(
+        opening ? "Portão aberto" : "Portão fechado",
+        g.name
+    );
+}
+
+
+function gateDetails(id){
+
+    const g = data.gates.find(x=>x.id===id);
+
+    if(!g) return;
+
+    alert(
+        `PORTÃO\n\n` +
+        `Nome: ${g.name}\n` +
+        `Tipo: ${g.type}\n` +
+        `Local: ${g.location || "-"}\n` +
+        `Controladora: ${g.controller || "-"}\n` +
+        `Status: ${g.status}`
+    );
+}
+
+
+function deleteGate(id){
+
+    const g = data.gates.find(x=>x.id===id);
+
+    if(!g) return;
+
+    if(!confirm(`Excluir "${g.name}"?`)) return;
+
+    data.gates = data.gates.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Portão excluído",
+        `${g.name} removido.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Portão excluído","Equipamento removido.");
+}
+
+
+/* =========================================================
+   CATRACAS
+========================================================= */
+
+function openTurnstileModal(){
+
+    document.querySelector("#turnstileModal form").reset();
+
+    openModal("turnstileModal");
+}
+
+
+function saveTurnstile(event){
+
+    event.preventDefault();
+
+    const obj = {
+
+        id:uid("cat"),
+
+        name:document.getElementById("turnstileName").value.trim(),
+
+        direction:document.getElementById("turnstileDirection").value,
+
+        location:document.getElementById("turnstileLocation").value.trim(),
+
+        controller:document.getElementById("turnstileController").value.trim(),
+
+        status:"Bloqueada"
+    };
+
+    data.turnstiles.push(obj);
+
+    logHistory(
+        "Sistema",
+        "Nova catraca",
+        `${obj.name} cadastrada.`
+    );
+
+    saveData();
+    closeModal("turnstileModal");
+    renderAll();
+
+    toast("Catraca cadastrada","Equipamento adicionado.");
+}
+
+
+function renderTurnstiles(){
+
+    const el = document.getElementById("turnstileGrid");
+
+    if(data.turnstiles.length===0){
+
+        el.innerHTML = `
+            <div class="empty" style="grid-column:1/-1;">
+                <div class="empty-icon">↔</div>
+                <p>Nenhuma catraca cadastrada.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = data.turnstiles.map(t=>{
+
+        const active = t.status==="Liberada";
+
+        return `
+            <div class="entity-card">
+
+                <div class="entity-head">
+
+                    <div class="entity-person">
+
+                        <div class="big-avatar">
+                            🚶
+                        </div>
+
+                        <div>
+
+                            <div class="entity-name">
+                                ${escapeHTML(t.name)}
+                            </div>
+
+                            <div class="entity-sub">
+                                ${escapeHTML(t.direction)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <span class="status-badge ${active ? "status-open" : "status-closed"}">
+                        ${active ? "LIBERADA" : "BLOQUEADA"}
+                    </span>
+
+                </div>
+
+                <div class="entity-info">
+
+                    <div class="info-box">
+                        <div class="info-label">Local</div>
+                        <div class="info-value">
+                            ${escapeHTML(t.location || "-")}
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-label">Controladora</div>
+                        <div class="info-value">
+                            ${escapeHTML(t.controller || "-")}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="entity-actions">
+
+                    <button
+                        class="btn btn-success"
+                        onclick="toggleTurnstile('${t.id}')"
+                    >
+                        ${active ? "Bloquear" : "Liberar acesso"}
+                    </button>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="deleteTurnstile('${t.id}')"
+                    >
+                        Excluir
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+function toggleTurnstile(id){
+
+    const t = data.turnstiles.find(x=>x.id===id);
+
+    if(!t) return;
+
+    const liberando = t.status !== "Liberada";
+
+    t.status = liberando ? "Liberada" : "Bloqueada";
+
+    logHistory(
+        "Catraca",
+        liberando ? "Catraca liberada" : "Catraca bloqueada",
+        `${t.name} foi ${liberando ? "liberada" : "bloqueada"} pelo operador.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast(
+        liberando ? "Catraca liberada" : "Catraca bloqueada",
+        t.name
+    );
+}
+
+
+function deleteTurnstile(id){
+
+    const t = data.turnstiles.find(x=>x.id===id);
+
+    if(!t) return;
+
+    if(!confirm(`Excluir "${t.name}"?`)) return;
+
+    data.turnstiles =
+        data.turnstiles.filter(x=>x.id!==id);
+
+    logHistory(
+        "Sistema",
+        "Catraca excluída",
+        `${t.name} removida.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast("Catraca excluída","Equipamento removido.");
+}
+
+
+/* =========================================================
+   REGISTRO DE ACESSOS
+========================================================= */
+
+function quickAccess(direction){
+
+    const person = prompt(
+        `Registrar ${direction.toLowerCase()}\n\nDigite o nome da pessoa:`
+    );
+
+    if(!person || !person.trim()) return;
+
+    const location =
+        direction==="Entrada"
+        ? "Portaria / Entrada"
+        : "Portaria / Saída";
+
+    const now = Date.now();
+
+    data.accesses.push({
+
+        id:uid("access"),
+
+        timestamp:now,
+
+        dateKey:new Date(now).toISOString().slice(0,10),
+
+        person:person.trim(),
+
+        personType:"Morador",
+
+        apartment:"-",
+
+        vehicle:"-",
+
+        direction,
+
+        location,
+
+        status:"Liberado"
+    });
+
+    logHistory(
+        direction,
+        `Acesso de ${direction.toLowerCase()}`,
+        `${person.trim()} teve acesso registrado.`
+    );
+
+    saveData();
+    renderAll();
+
+    toast(
+        `Acesso de ${direction.toLowerCase()} registrado`,
+        person.trim()
+    );
+}
+
+
+function renderAccessPage(){
+
+    const el = document.getElementById("accessTable");
+
+    const q =
+        (document.getElementById("accessSearch")?.value || "")
+        .toLowerCase();
+
+    const list = data.accesses
+        .filter(a=>{
+
+            return (
+                a.person.toLowerCase().includes(q) ||
+                (a.apartment || "").toLowerCase().includes(q) ||
+                (a.vehicle || "").toLowerCase().includes(q)
+            );
+
+        })
+        .sort((a,b)=>b.timestamp-a.timestamp);
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty">
+                        <div class="empty-icon">⇄</div>
+                        <p>Nenhum acesso encontrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(a=>{
+
+        return `
+            <tr>
+
+                <td>${formatDateTime(a.timestamp)}</td>
+
+                <td>
+                    <div class="person">
+                        <div class="person-avatar">
+                            ${initials(a.person)}
+                        </div>
+                        ${escapeHTML(a.person)}
+                    </div>
+                </td>
+
+                <td>
+                    <span class="badge ${
+                        a.personType==="Visitante"
+                        ? "badge-orange"
+                        : "badge-blue"
+                    }">
+                        ${escapeHTML(a.personType)}
+                    </span>
+                </td>
+
+                <td>${escapeHTML(a.apartment || "-")}</td>
+
+                <td>${escapeHTML(a.vehicle || "-")}</td>
+
+                <td>
+                    ${escapeHTML(a.location || "-")}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        ✓ ${escapeHTML(a.direction)}
+                    </span>
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   HISTORICO
+========================================================= */
+
+function logHistory(type,event,description){
+
+    const now = Date.now();
+
+    data.history.push({
+
+        id:uid("hist"),
+
+        timestamp:now,
+
+        type,
+
+        event,
+
+        description,
+
+        operator:"Operador",
+
+        status:"Concluído"
+    });
+
+    if(data.history.length>1000){
+        data.history =
+            data.history.slice(-1000);
+    }
+}
+
+
+function renderHistory(){
+
+    const el = document.getElementById("historyTable");
+
+    const q =
+        (document.getElementById("historySearch")?.value || "")
+        .toLowerCase();
+
+    const filter =
+        document.getElementById("historyFilter")?.value || "Todos";
+
+    const list = data.history
+        .filter(h=>{
+
+            const matchesText =
+                h.event.toLowerCase().includes(q) ||
+                h.description.toLowerCase().includes(q) ||
+                h.type.toLowerCase().includes(q);
+
+            const matchesType =
+                filter==="Todos" || h.type===filter;
+
+            return matchesText && matchesType;
+
+        })
+        .sort((a,b)=>b.timestamp-a.timestamp);
+
+    if(list.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        <div class="empty-icon">☷</div>
+                        <p>Nenhum evento encontrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = list.map(h=>{
+
+        return `
+            <tr>
+
+                <td>
+                    ${formatDateTime(h.timestamp)}
+                </td>
+
+                <td>
+                    <span class="badge ${
+                        h.type==="Sistema"
+                        ? "badge-blue"
+                        : h.type==="Entrada" || h.type==="Saída"
+                        ? "badge-green"
+                        : "badge-orange"
+                    }">
+                        ${escapeHTML(h.event)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(h.description)}
+                </td>
+
+                <td>
+                    ${escapeHTML(h.operator)}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        ${escapeHTML(h.status)}
+                    </span>
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
+
+function renderEvents(){
+
+    const el = document.getElementById("eventTable");
+
+    const events = data.history
+        .slice(-15)
+        .reverse();
+
+    if(events.length===0){
+
+        el.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        <div class="empty-icon">⚠</div>
+                        <p>Nenhum evento registrado.</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    el.innerHTML = events.map(h=>{
+
+        return `
+            <tr>
+
+                <td>${formatDateTime(h.timestamp)}</td>
+
+                <td>
+                    <span class="badge badge-orange">
+                        ${escapeHTML(h.type)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(h.event)}
+                </td>
+
+                <td>
+                    ${escapeHTML(h.description)}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Normal
+                    </span>
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+/* =========================================================
+   MODAIS
+========================================================= */
+
+function openModal(id){
+
+    document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id){
+
+    document.getElementById(id).classList.remove("show");
+}
+
+document.querySelectorAll(".modal-overlay").forEach(overlay=>{
+
+    overlay.addEventListener("click",e=>{
+
+        if(e.target===overlay){
+            overlay.classList.remove("show");
+        }
+
+    });
+
+});
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="Escape"){
+
+        document.querySelectorAll(".modal-overlay.show")
+            .forEach(m=>m.classList.remove("show"));
+    }
+
+});
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(title,text){
+
+    const container =
+        document.getElementById("toastContainer");
+
+    const item = document.createElement("div");
+
+    item.className = "toast";
+
+    item.innerHTML = `
+        <div class="toast-icon">✓</div>
+
+        <div>
+            <div class="toast-title">
+                ${escapeHTML(title)}
+            </div>
+
+            <div class="toast-text">
+                ${escapeHTML(text)}
+            </div>
+        </div>
+    `;
+
+    container.appendChild(item);
+
+    setTimeout(()=>{
+
+        item.style.opacity="0";
+        item.style.transform="translateY(10px)";
+
+        setTimeout(()=>item.remove(),250);
+
+    },3500);
+}
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportBackup(){
+
+    const backup = {
+
+        exportedAt:new Date().toISOString(),
+
+        application:"CondoSecure",
+
+        version:"1.0",
+
+        data:data
+    };
+
+    const blob = new Blob(
+        [JSON.stringify(backup,null,2)],
+        {type:"application/json"}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "condosecure-backup-" +
+        new Date().toISOString().slice(0,10) +
+        ".json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    toast(
+        "Backup exportado",
+        "Arquivo JSON gerado com sucesso."
+    );
+}
+
+
+function importBackup(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+        try{
+
+            const backup =
+                JSON.parse(reader.result);
+
+            if(!backup.data){
+
+                throw new Error("Formato inválido");
+            }
+
+            if(!confirm(
+                "Importar este backup irá substituir os dados atuais. Continuar?"
+            )) return;
+
+            data = backup.data;
+
+            saveData();
+
+            renderAll();
+
+            toast(
+                "Backup importado",
+                "Os dados foram restaurados."
+            );
+
+        }catch(error){
+
+            alert(
+                "Não foi possível importar o backup."
+            );
+
+        }
+
+    };
+
+    reader.readAsText(file);
+
+    event.target.value="";
+}
+
+
+function clearAllData(){
+
+    if(!confirm(
+        "ATENÇÃO!\n\nIsso apagará moradores, visitantes, veículos, câmeras, equipamentos e histórico.\n\nDeseja continuar?"
+    )) return;
+
+    if(!confirm(
+        "Confirme novamente: apagar TODOS os dados?"
+    )) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    location.reload();
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function initials(name){
+
+    if(!name) return "?";
+
+    return name
+        .split(" ")
+        .filter(Boolean)
+        .slice(0,2)
+        .map(x=>x[0])
+        .join("")
+        .toUpperCase();
+}
+
+
+function formatDateTime(timestamp){
+
+    return new Date(timestamp)
+        .toLocaleString("pt-BR");
+}
+
+
+function formatDate(date){
+
+    if(!date) return "-";
+
+    const parts = date.split("-");
+
+    if(parts.length!==3) return date;
+
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+
+function escapeHTML(value){
+
+    if(value===null || value===undefined){
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   RENDER GERAL
+========================================================= */
+
+function renderAll(){
+
+    renderDashboard();
+
+    renderResidents();
+
+    renderVisitors();
+
+    renderVehicles();
+
+    renderCameras();
+
+    renderGates();
+
+    renderTurnstiles();
+
+    renderAccessPage();
+
+    renderHistory();
+
+    renderEvents();
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+renderAll();
+
+</script>
+
+</body>
+</html>

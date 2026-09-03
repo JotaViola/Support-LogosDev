@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logos Frota</title>
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --gold:#d4af37;--gold2:#9b7a16;--bg:#111315;--panel:#191c20;--panel2:#20242a;
+  --border:#30353c;--text:#f2f3f5;--muted:#9da4ad;--green:#27c281;--blue:#3da5ff;
+  --yellow:#e8bd38;--red:#ed5c67;--shadow:0 12px 35px rgba(0,0,0,.25)
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:245px;background:#0d0f11;border-right:1px solid var(--border);position:fixed;inset:0 auto 0 0;z-index:20;padding:18px 12px;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:11px;padding:8px 10px 22px}.brand-logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#fff0a1);color:#171717;display:grid;place-items:center;font-weight:900;font-size:18px}.brand b{display:block}.brand small{color:var(--muted)}
+.nav-title{font-size:10px;color:#666e78;text-transform:uppercase;letter-spacing:1.4px;padding:14px 11px 7px}
+.nav button{width:100%;border:0;background:transparent;color:#b9bec5;text-align:left;padding:11px 12px;border-radius:9px;margin:2px 0;display:flex;gap:10px;align-items:center}.nav button:hover,.nav button.active{background:#20242a;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--gold);color:var(--gold)}
+.main{margin-left:245px;width:calc(100% - 245px)}.topbar{height:66px;border-bottom:1px solid var(--border);background:#151719cc;backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:15}.topbar h1{font-size:20px;margin:0}.clock{color:var(--muted);font-size:13px}
+.content{padding:26px;max-width:1500px;margin:auto}.page{display:none}.page.active{display:block}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow)}.stat{display:flex;justify-content:space-between;align-items:flex-start}.stat .icon{width:38px;height:38px;border-radius:10px;background:#262b31;display:grid;place-items:center}.stat .num{font-size:29px;font-weight:800;margin-top:8px}.muted{color:var(--muted)}.green{color:var(--green)}.blue{color:var(--blue)}.yellow{color:var(--yellow)}.red{color:var(--red)}
+.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.section-title h2{font-size:17px;margin:0}.btn{border:1px solid var(--border);background:#252a30;color:#fff;border-radius:8px;padding:9px 13px}.btn:hover{filter:brightness(1.12)}.btn.gold{background:var(--gold);color:#151515;border-color:var(--gold);font-weight:700}.btn.danger{background:#3a2024;color:#ff9aa1;border-color:#623037}.btn.green{background:#193a2e;color:#6ff0b5;border-color:#285d48}.btn.small{padding:6px 9px;font-size:12px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--border);font-size:13px}th{color:#89919a;font-weight:600}tbody tr:hover{background:#20242a}.badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}.b-green{background:#17382d;color:#63e8ae}.b-blue{background:#17334c;color:#73c1ff}.b-yellow{background:#3b3218;color:#f2cf60}.b-red{background:#402329;color:#ff9ca5}.b-gray{background:#2c3035;color:#bbc0c7}
+.actions{display:flex;gap:5px;flex-wrap:wrap}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}.search{min-width:220px;flex:1}
+input,select,textarea{width:100%;background:#101215;color:#eee;border:1px solid #343a42;border-radius:8px;padding:10px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold)}textarea{min-height:90px;resize:vertical}.form{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.form .full{grid-column:1/-1}.field label{display:block;color:#aab0b8;font-size:12px;margin:0 0 6px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}.modal.open{display:flex}.modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#191c20;border:1px solid var(--border);border-radius:15px;padding:20px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.modal-head h3{margin:0}.close{background:transparent;border:0;color:#aaa;font-size:24px}
+.empty{text-align:center;padding:30px;color:#777}.map{height:500px;border-radius:12px;overflow:hidden;border:1px solid var(--border)}#map{height:100%}.route-info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.mini{background:#111315;border:1px solid var(--border);padding:12px;border-radius:9px}.mini b{display:block;font-size:18px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.progress{height:7px;background:#292e34;border-radius:9px;overflow:hidden;margin-top:9px}.progress span{display:block;height:100%;background:var(--gold)}
+.timeline{display:grid;gap:9px}.event{display:flex;gap:12px;align-items:center;padding:10px;border-bottom:1px solid var(--border)}.dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.notice{padding:12px;border:1px solid #4b4121;background:#272316;color:#d9c989;border-radius:9px;font-size:12px;margin-bottom:14px}
+@media(max-width:1050px){.cards,.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.sidebar{width:205px}.main{margin-left:205px;width:calc(100% - 205px)}}@media(max-width:700px){.sidebar{position:relative;width:100%;height:auto}.app{display:block}.main{margin-left:0;width:100%}.cards,.grid3,.form,.route-info{grid-template-columns:1fr}.content{padding:15px}.topbar{padding:0 15px}.sidebar{display:none}.sidebar.mobile{display:block}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-logo">🚛</div><div><b>Logos Frota</b><small>Gestão de transportes</small></div></div>
+  <div class="nav">
+    <div class="nav-title">Visão geral</div>
+    <button class="active" data-page="dashboard">📊 Dashboard</button>
+    <div class="nav-title">Frota</div>
+    <button data-page="caminhoes">🚚 Caminhões</button>
+    <button data-page="motoristas">👨‍✈️ Motoristas</button>
+    <button data-page="manutencao">🔧 Manutenção</button>
+    <div class="nav-title">Operação</div>
+    <button data-page="deslocamentos">🛣️ Deslocamentos</button>
+    <button data-page="fretes">📦 Fretes</button>
+    <div class="nav-title">Comercial</div>
+    <button data-page="cotacoes">💰 Cotações</button>
+    <button data-page="clientes">👤 Clientes</button>
+    <div class="nav-title">Mapa</div>
+    <button data-page="mapa">🗺️ Mapa de cotação</button>
+    <div class="nav-title">Sistema</div>
+    <button data-page="relatorios">📈 Relatórios</button>
+    <button data-page="backup">⚙️ Backup / Dados</button>
+  </div>
+</aside>
+
+<main class="main">
+<header class="topbar"><h1 id="pageTitle">Dashboard</h1><span class="clock" id="clock"></span></header>
+<div class="content">
+
+<section id="dashboard" class="page active">
+  <div class="cards" id="stats"></div>
+  <div class="grid2">
+    <div class="card"><div class="section-title"><h2>Status da frota</h2><button class="btn small" onclick="showPage('caminhoes')">Ver frota</button></div><div id="fleetStatus"></div></div>
+    <div class="card"><div class="section-title"><h2>Próximos deslocamentos</h2><button class="btn small" onclick="showPage('deslocamentos')">Ver todos</button></div><div id="nextTrips"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px"><div class="section-title"><h2>Atividade recente</h2></div><div id="activity"></div></div>
+</section>
+
+<section id="caminhoes" class="page">
+  <div class="section-title"><h2>Cadastro de caminhões</h2><button class="btn gold" onclick="openTruck()">+ Novo caminhão</button></div>
+  <div class="toolbar"><input class="search" id="truckSearch" placeholder="Pesquisar por placa, modelo ou tipo..." oninput="renderTrucks()"><select id="truckStatusFilter" onchange="renderTrucks()"><option value="">Todos os status</option><option>Disponível</option><option>Em deslocamento</option><option>Em Retorno</option><option>Parado</option><option>Manutenção</option><option>Indisponível</option></select></div>
+  <div class="card"><div id="trucksTable"></div></div>
+</section>
+
+<section id="motoristas" class="page">
+  <div class="section-title"><h2>Motoristas</h2><button class="btn gold" onclick="openDriver()">+ Novo motorista</button></div>
+  <div class="card"><div id="driversTable"></div></div>
+</section>
+
+<section id="manutencao" class="page">
+  <div class="section-title"><h2>Manutenção</h2><button class="btn gold" onclick="openMaintenance()">+ Registrar manutenção</button></div>
+  <div class="card"><div id="maintenanceTable"></div></div>
+</section>
+
+<section id="deslocamentos" class="page">
+  <div class="section-title"><h2>Deslocamentos</h2><button class="btn gold" onclick="openTrip()">+ Novo deslocamento</button></div>
+  <div class="notice">Fluxo da viagem: <b>Programado → Em carregamento → Em trânsito → Entregue → Em Retorno → Disponível</b>. O caminhão só volta a ficar disponível após o retorno.</div><div class="toolbar"><select id="tripFilter" onchange="renderTrips()"><option value="">Todos</option><option>Programado</option><option>Em carregamento</option><option>Em trânsito</option><option>Entregue</option><option>Em Retorno</option><option>Cancelado</option></select></div>
+  <div class="card"><div id="tripsTable"></div></div>
+</section>
+
+<section id="fretes" class="page">
+  <div class="section-title"><h2>Fretes</h2><button class="btn gold" onclick="openQuote()">+ Nova cotação</button></div>
+  <div class="card"><div id="freightsTable"></div></div>
+</section>
+
+<section id="cotacoes" class="page">
+  <div class="section-title"><h2>Cotações de frete</h2><button class="btn gold" onclick="openQuote()">+ Nova cotação</button></div>
+  <div class="toolbar"><input class="search" id="quoteSearch" placeholder="Pesquisar cliente, origem ou destino..." oninput="renderQuotes()"></div>
+  <div class="card"><div id="quotesTable"></div></div>
+</section>
+
+<section id="clientes" class="page">
+  <div class="section-title"><h2>Clientes</h2><button class="btn gold" onclick="openClient()">+ Novo cliente</button></div>
+  <div class="toolbar"><input class="search" id="clientSearch" placeholder="Pesquisar nome, CNPJ/CPF ou telefone..." oninput="renderClients()"></div>
+  <div class="card"><div id="clientsTable"></div></div>
+</section>
+
+<section id="mapa" class="page">
+  <div class="section-title"><h2>Mapa de cotação</h2><button class="btn gold" onclick="calculateMapRoute()">Calcular rota</button></div>
+  <div class="card">
+    <div class="form">
+      <div class="field"><label>Origem</label><input id="mapOrigin" placeholder="Ex.: São Paulo, SP"></div>
+      <div class="field"><label>Destino</label><input id="mapDestination" placeholder="Ex.: Curitiba, PR"></div>
+    </div>
+    <div class="notice" style="margin-top:12px">O mapa usa OpenStreetMap para localização e cálculo de rota. É necessário estar conectado à internet para geocodificação e rota.</div>
+    <div class="map"><div id="map"></div></div>
+    <div class="route-info" id="routeInfo"><div class="mini">Distância<b>—</b></div><div class="mini">Tempo estimado<b>—</b></div><div class="mini">Custo combustível<b>—</b></div></div>
+  </div>
+</section>
+
+<section id="relatorios" class="page">
+  <div class="section-title"><h2>Relatórios e indicadores</h2></div>
+  <div class="grid3" id="reportCards"></div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:16px">Resumo financeiro dos fretes</h2><div id="reportTable"></div></div>
+</section>
+
+<section id="backup" class="page">
+  <div class="section-title"><h2>Backup e dados</h2></div>
+  <div class="grid2">
+    <div class="card"><h2 style="font-size:16px">Exportar dados</h2><p class="muted">Salve todos os dados do sistema em um arquivo JSON.</p><button class="btn gold" onclick="exportData()">⬇ Exportar backup</button></div>
+    <div class="card"><h2 style="font-size:16px">Restaurar dados</h2><p class="muted">Importe um backup JSON anteriormente exportado.</p><input type="file" id="importFile" accept=".json" onchange="importData(event)"></div>
+  </div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:16px">Configuração da cotação</h2><div class="form" id="settingsForm"></div></div>
+</section>
+
+</div></main></div>
+
+<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 id="modalTitle"></h3><button class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div></div></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const KEY='frotapro_v1';
+const defaults={
+ trucks:[],drivers:[],clients:[],quotes:[],trips:[],maintenance:[],
+ settings:{diesel:6.20,consumption:2.8,costKm:1.20,toll:0,margin:20}
+};
+let db=JSON.parse(localStorage.getItem(KEY)||'null')||structuredClone(defaults);
+function save(){localStorage.setItem(KEY,JSON.stringify(db));}
+function uid(p='id'){return p+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function kg(v){return Number(v||0).toLocaleString('pt-BR')+' kg'}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function badge(s){let c=s==='Disponível'||s==='Entregue'?'b-green':s==='Em deslocamento'||s==='Em Retorno'||s==='Em trânsito'?'b-blue':s==='Parado'||s==='Programado'||s==='Em carregamento'?'b-yellow':s==='Manutenção'||s==='Cancelado'?'b-red':'b-gray';return `<span class="badge ${c}">${esc(s)}</span>`}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ const names={dashboard:'Dashboard',caminhoes:'Caminhões',motoristas:'Motoristas',manutencao:'Manutenção',deslocamentos:'Deslocamentos',fretes:'Fretes',cotacoes:'Cotações de frete',clientes:'Clientes',mapa:'Mapa de cotação',relatorios:'Relatórios',backup:'Backup / Dados'};
+ document.getElementById('pageTitle').textContent=names[id]||id;
+ if(id==='mapa') setTimeout(initMap,50); renderAll();
+}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+function renderAll(){renderDashboard();renderTrucks();renderDrivers();renderMaintenance();renderTrips();renderQuotes();renderClients();renderFreights();renderReports();renderSettings();}
+function renderDashboard(){
+ const total=db.trucks.length, available=db.trucks.filter(x=>x.status==='Disponível').length, moving=db.trucks.filter(x=>x.status==='Em deslocamento').length, stopped=db.trucks.filter(x=>x.status==='Parado').length, maint=db.trucks.filter(x=>x.status==='Manutenção').length;
+ document.getElementById('stats').innerHTML=[
+ ['🚚','Total de caminhões',total,''],['🟢','Disponíveis',available,'green'],['🔵','Em deslocamento',moving,'blue'],['🔧','Em manutenção',maint,'red']
+ ].map(x=>`<div class="card"><div class="stat"><div><div class="muted">${x[1]}</div><div class="num ${x[3]}">${x[2]}</div></div><div class="icon">${x[0]}</div></div></div>`).join('');
+ const statuses=[['Disponível','green'],['Em deslocamento','blue'],['Em Retorno','blue'],['Parado','yellow'],['Manutenção','red'],['Indisponível','']];
+ document.getElementById('fleetStatus').innerHTML=statuses.map(([s,c])=>{let n=db.trucks.filter(x=>x.status===s).length,p=total?Math.round(n/total*100):0;return `<div style="margin:12px 0"><div style="display:flex;justify-content:space-between"><span>${s}</span><b>${n}</b></div><div class="progress"><span style="width:${p}%"></span></div></div>`}).join('');
+ const trips=db.trips.filter(x=>x.status!=='Disponível'&&x.status!=='Cancelado').slice(0,5);
+ document.getElementById('nextTrips').innerHTML=trips.length?trips.map(t=>`<div class="event"><div class="dot"></div><div style="flex:1"><b>${esc(t.origin)} → ${esc(t.destination)}</b><div class="muted">${esc(t.truckPlate||'Sem caminhão')} · ${esc(t.date||'')}</div></div>${badge(t.status)}</div>`).join(''):'<div class="empty">Nenhum deslocamento programado.</div>';
+ const events=[...db.quotes.map(q=>({d:q.created||'',t:'Cotação criada',s:q.clientName||''})),...db.trips.map(t=>({d:t.date||'',t:'Deslocamento',s:t.origin+' → '+t.destination}))].sort((a,b)=>String(b.d).localeCompare(String(a.d))).slice(0,6);
+ document.getElementById('activity').innerHTML=events.length?events.map(e=>`<div class="event"><div class="dot"></div><div><b>${esc(e.t)}</b><div class="muted">${esc(e.s)} · ${esc(e.d)}</div></div></div>`).join(''):'<div class="empty">Nenhuma atividade registrada.</div>';
+}
+function renderTrucks(){
+ let q=(document.getElementById('truckSearch')?.value||'').toLowerCase(), f=document.getElementById('truckStatusFilter')?.value||'';
+ let a=db.trucks.filter(t=>(!q||[t.plate,t.model,t.type,t.brand].join(' ').toLowerCase().includes(q))&&(!f||t.status===f));
+ document.getElementById('trucksTable').innerHTML=a.length?`<table><thead><tr><th>Placa</th><th>Veículo</th><th>Capacidade</th><th>Eixos</th><th>Status</th><th>Ações</th></tr></thead><tbody>${a.map(t=>`<tr><td><b>${esc(t.plate)}</b></td><td>${esc(t.brand)} ${esc(t.model)}<br><span class="muted">${esc(t.body||'')}</span></td><td>${kg(t.capacity)}</td><td>${esc(t.axles||'—')}</td><td>${badge(t.status)}</td><td class="actions"><button class="btn small" onclick="openTruck('${t.id}')">Editar</button><button class="btn small danger" onclick="del('trucks','${t.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhum caminhão cadastrado.</div>';
+}
+function renderDrivers(){document.getElementById('driversTable').innerHTML=db.drivers.length?`<table><thead><tr><th>Nome</th><th>CPF</th><th>Telefone</th><th>CNH</th><th>Categoria</th><th>Ações</th></tr></thead><tbody>${db.drivers.map(d=>`<tr><td><b>${esc(d.name)}</b></td><td>${esc(d.cpf)}</td><td>${esc(d.phone)}</td><td>${esc(d.cnh)}</td><td>${esc(d.category)}</td><td><button class="btn small" onclick="openDriver('${d.id}')">Editar</button> <button class="btn small danger" onclick="del('drivers','${d.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhum motorista cadastrado.</div>'}
+function renderMaintenance(){document.getElementById('maintenanceTable').innerHTML=db.maintenance.length?`<table><thead><tr><th>Data</th><th>Caminhão</th><th>Serviço</th><th>Km</th><th>Custo</th><th>Ações</th></tr></thead><tbody>${db.maintenance.map(m=>`<tr><td>${esc(m.date)}</td><td>${esc(m.plate)}</td><td>${esc(m.service)}</td><td>${esc(m.km||'—')}</td><td>${money(m.cost)}</td><td><button class="btn small danger" onclick="del('maintenance','${m.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhuma manutenção registrada.</div>'}
+function renderTrips(){
+ let f=document.getElementById('tripFilter')?.value||'', a=db.trips.filter(t=>!f||t.status===f);
+ document.getElementById('tripsTable').innerHTML=a.length?`<table><thead><tr><th>Data</th><th>Rota</th><th>Cliente</th><th>Caminhão</th><th>Motorista</th><th>Status</th><th>Ações</th></tr></thead><tbody>${a.map(t=>`<tr><td>${esc(t.date)}</td><td><b>${esc(t.origin)}</b><br>→ ${esc(t.destination)}</td><td>${esc(t.clientName||'—')}</td><td>${esc(t.truckPlate||'—')}</td><td>${esc(t.driverName||'—')}</td><td>${badge(t.status)}</td><td><button class="btn small" onclick="advanceTrip('${t.id}')">Avançar</button> <button class="btn small danger" onclick="del('trips','${t.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhum deslocamento.</div>';
+}
+function renderQuotes(){
+ let q=(document.getElementById('quoteSearch')?.value||'').toLowerCase(),a=db.quotes.filter(x=>!q||[x.clientName,x.origin,x.destination].join(' ').toLowerCase().includes(q));
+ document.getElementById('quotesTable').innerHTML=a.length?`<table><thead><tr><th>Data</th><th>Cliente</th><th>Origem → Destino</th><th>Peso</th><th>Distância</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead><tbody>${a.map(x=>`<tr><td>${esc(x.created)}</td><td>${esc(x.clientName)}</td><td>${esc(x.origin)} → ${esc(x.destination)}</td><td>${kg(x.weight)}</td><td>${Number(x.distance||0).toLocaleString('pt-BR')} km</td><td><b>${money(x.total)}</b></td><td>${badge(x.status)}</td><td><button class="btn small green" onclick="convertQuote('${x.id}')">Virar frete</button> <button class="btn small danger" onclick="del('quotes','${x.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhuma cotação encontrada.</div>';
+}
+function renderClients(){
+ let q=(document.getElementById('clientSearch')?.value||'').toLowerCase(),a=db.clients.filter(x=>!q||[x.name,x.doc,x.phone].join(' ').toLowerCase().includes(q));
+ document.getElementById('clientsTable').innerHTML=a.length?`<table><thead><tr><th>Cliente</th><th>CPF/CNPJ</th><th>Telefone</th><th>Cidade/UF</th><th>Ações</th></tr></thead><tbody>${a.map(c=>`<tr><td><b>${esc(c.name)}</b><br><span class="muted">${esc(c.email||'')}</span></td><td>${esc(c.doc)}</td><td>${esc(c.phone)}</td><td>${esc(c.city||'')} / ${esc(c.uf||'')}</td><td><button class="btn small" onclick="openClient('${c.id}')">Editar</button> <button class="btn small danger" onclick="del('clients','${c.id}')">Excluir</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhum cliente cadastrado.</div>';
+}
+function renderFreights(){let a=db.quotes.filter(x=>x.status==='Convertida');document.getElementById('freightsTable').innerHTML=a.length?`<table><thead><tr><th>Cliente</th><th>Rota</th><th>Valor</th><th>Data</th></tr></thead><tbody>${a.map(x=>`<tr><td>${esc(x.clientName)}</td><td>${esc(x.origin)} → ${esc(x.destination)}</td><td>${money(x.total)}</td><td>${esc(x.created)}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">Nenhum frete convertido a partir de cotação.</div>'}
+function renderReports(){
+ const revenue=db.quotes.filter(q=>q.status==='Convertida').reduce((s,q)=>s+Number(q.total||0),0),quotes=db.quotes.length,km=db.quotes.reduce((s,q)=>s+Number(q.distance||0),0),avg=quotes?revenue/Math.max(1,db.quotes.filter(q=>q.status==='Convertida').length):0;
+ document.getElementById('reportCards').innerHTML=[['💰','Faturamento convertido',money(revenue)],['📄','Cotações emitidas',quotes],['🛣️','Km cotados',km.toLocaleString('pt-BR')+' km'],['📦','Ticket médio',money(avg)]].map(x=>`<div class="card"><div class="muted">${x[0]} ${x[1]}</div><div class="num" style="font-size:23px;margin-top:9px">${x[2]}</div></div>`).join('');
+ document.getElementById('reportTable').innerHTML=db.quotes.length?`<table><thead><tr><th>Cliente</th><th>Distância</th><th>Valor</th><th>Margem estimada</th><th>Status</th></tr></thead><tbody>${db.quotes.map(q=>`<tr><td>${esc(q.clientName)}</td><td>${Number(q.distance||0).toLocaleString('pt-BR')} km</td><td>${money(q.total)}</td><td>${money(Number(q.total||0)-Number(q.cost||0))}</td><td>${badge(q.status)}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">Sem dados para relatório.</div>';
+}
+function renderSettings(){document.getElementById('settingsForm').innerHTML=`<div class="field"><label>Diesel (R$/L)</label><input id="sDiesel" type="number" step=".01" value="${db.settings.diesel}"></div><div class="field"><label>Consumo médio (km/L)</label><input id="sCons" type="number" step=".1" value="${db.settings.consumption}"></div><div class="field"><label>Custo operacional por km (R$)</label><input id="sKm" type="number" step=".01" value="${db.settings.costKm}"></div><div class="field"><label>Margem padrão (%)</label><input id="sMargin" type="number" step=".1" value="${db.settings.margin}"></div><div class="full"><button class="btn gold" onclick="saveSettings()">Salvar configurações</button></div>`}
+function saveSettings(){db.settings={diesel:+sDiesel.value||0,consumption:+sCons.value||1,costKm:+sKm.value||0,toll:0,margin:+sMargin.value||0};save();alert('Configurações salvas.');}
+function openModal(title,body){modalTitle.textContent=title;modalBody.innerHTML=body;modal.classList.add('open')}
+function closeModal(){modal.classList.remove('open')}
+function openTruck(id){
+ let t=db.trucks.find(x=>x.id===id)||{id:'',plate:'',brand:'',model:'',year:'',type:'Truck',capacity:10000,body:'',axles:2,status:'Disponível',fuel:'Diesel',km:''};
+ openModal(id?'Editar caminhão':'Novo caminhão',`<form onsubmit="saveTruck(event,'${id||''}')"><div class="form">
+ <div class="field"><label>Placa *</label><input name="plate" value="${esc(t.plate)}" required></div><div class="field"><label>Tipo</label><select name="type">${['3/4','Toco','Truck','Carreta','Bitrem','Rodotrem','Outro'].map(x=>`<option ${x===t.type?'selected':''}>${x}</option>`).join('')}</select></div>
+ <div class="field"><label>Marca</label><input name="brand" value="${esc(t.brand)}"></div><div class="field"><label>Modelo</label><input name="model" value="${esc(t.model)}"></div>
+ <div class="field"><label>Ano</label><input name="year" type="number" value="${esc(t.year)}"></div><div class="field"><label>Capacidade de carga (kg) *</label><input name="capacity" type="number" min="1" value="${esc(t.capacity)}" required></div>
+ <div class="field"><label>Carroceria</label><input name="body" value="${esc(t.body)}" placeholder="Baú, Sider, Graneleiro..."></div><div class="field"><label>Número de eixos</label><input name="axles" type="number" value="${esc(t.axles)}"></div>
+ <div class="field"><label>Combustível</label><input name="fuel" value="${esc(t.fuel)}"></div><div class="field"><label>Quilometragem atual</label><input name="km" type="number" value="${esc(t.km)}"></div>
+ <div class="field"><label>Status</label><select name="status">${['Disponível','Em deslocamento','Parado','Manutenção','Indisponível'].map(x=>`<option ${x===t.status?'selected':''}>${x}</option>`).join('')}</select></div>
+ <div class="field full"><button class="btn gold" type="submit">Salvar caminhão</button></div></div></form>`);
+}
+function saveTruck(e,id){e.preventDefault();let f=new FormData(e.target),o=Object.fromEntries(f);o.capacity=+o.capacity;o.axles=+o.axles;o.km=+o.km||0;o.id=id||uid('truck');if(id)db.trucks=db.trucks.map(x=>x.id===id?o:x);else db.trucks.push(o);save();closeModal();renderAll();}
+function openDriver(id){let d=db.drivers.find(x=>x.id===id)||{name:'',cpf:'',phone:'',cnh:'',category:'E',validity:'',obs:''};openModal(id?'Editar motorista':'Novo motorista',`<form onsubmit="saveDriver(event,'${id||''}')"><div class="form"><div class="field"><label>Nome *</label><input name="name" value="${esc(d.name)}" required></div><div class="field"><label>CPF</label><input name="cpf" value="${esc(d.cpf)}"></div><div class="field"><label>Telefone</label><input name="phone" value="${esc(d.phone)}"></div><div class="field"><label>CNH</label><input name="cnh" value="${esc(d.cnh)}"></div><div class="field"><label>Categoria</label><select name="category">${['B','C','D','E'].map(x=>`<option ${x===d.category?'selected':''}>${x}</option>`).join('')}</select></div><div class="field"><label>Validade</label><input name="validity" type="date" value="${esc(d.validity)}"></div><div class="field full"><label>Observações</label><textarea name="obs">${esc(d.obs)}</textarea></div><div class="field full"><button class="btn gold">Salvar motorista</button></div></div></form>`)}
+function saveDriver(e,id){e.preventDefault();let o=Object.fromEntries(new FormData(e.target));o.id=id||uid('driver');if(id)db.drivers=db.drivers.map(x=>x.id===id?o:x);else db.drivers.push(o);save();closeModal();renderAll();}
+function openClient(id){let c=db.clients.find(x=>x.id===id)||{name:'',doc:'',phone:'',email:'',cep:'',address:'',number:'',neighborhood:'',city:'',uf:'',obs:''};openModal(id?'Editar cliente':'Novo cliente',`<form onsubmit="saveClient(event,'${id||''}')"><div class="form"><div class="field full"><label>Nome / Razão Social *</label><input name="name" value="${esc(c.name)}" required></div><div class="field"><label>CPF/CNPJ</label><input name="doc" value="${esc(c.doc)}"></div><div class="field"><label>Telefone / WhatsApp</label><input name="phone" value="${esc(c.phone)}"></div><div class="field"><label>E-mail</label><input name="email" type="email" value="${esc(c.email)}"></div><div class="field"><label>CEP</label><input name="cep" value="${esc(c.cep)}"></div><div class="field"><label>Endereço</label><input name="address" value="${esc(c.address)}"></div><div class="field"><label>Número</label><input name="number" value="${esc(c.number)}"></div><div class="field"><label>Bairro</label><input name="neighborhood" value="${esc(c.neighborhood)}"></div><div class="field"><label>Cidade</label><input name="city" value="${esc(c.city)}"></div><div class="field"><label>UF</label><input name="uf" maxlength="2" value="${esc(c.uf)}"></div><div class="field full"><label>Observações</label><textarea name="obs">${esc(c.obs)}</textarea></div><div class="field full"><button class="btn gold">Salvar cliente</button></div></div></form>`)}
+function saveClient(e,id){e.preventDefault();let o=Object.fromEntries(new FormData(e.target));o.id=id||uid('client');if(id)db.clients=db.clients.map(x=>x.id===id?o:x);else db.clients.push(o);save();closeModal();renderAll();}
+function openMaintenance(){openModal('Registrar manutenção',`<form onsubmit="saveMaintenance(event)"><div class="form"><div class="field"><label>Caminhão *</label><select name="plate" required>${db.trucks.map(t=>`<option>${esc(t.plate)}</option>`).join('')}</select></div><div class="field"><label>Data</label><input name="date" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field full"><label>Serviço realizado *</label><input name="service" required></div><div class="field"><label>Quilometragem</label><input name="km" type="number"></div><div class="field"><label>Custo (R$)</label><input name="cost" type="number" step=".01"></div><div class="field full"><label>Observações</label><textarea name="obs"></textarea></div><div class="field full"><button class="btn gold">Registrar</button></div></div></form>`)}
+function saveMaintenance(e){e.preventDefault();let o=Object.fromEntries(new FormData(e.target));o.id=uid('mnt');o.cost=+o.cost||0;db.maintenance.push(o);let t=db.trucks.find(x=>x.plate===o.plate);if(t)t.status='Manutenção';save();closeModal();renderAll();}
+function openTrip(pref={}){let clients=db.clients, trucks=db.trucks,drivers=db.drivers;openModal('Novo deslocamento',`<form onsubmit="saveTrip(event)"><div class="form"><div class="field"><label>Cliente</label><select name="clientId"><option value="">— Selecionar —</option>${clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>Data de saída</label><input name="date" type="date" value="${pref.date||new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Origem *</label><input name="origin" value="${esc(pref.origin||'')}" required></div><div class="field"><label>Destino *</label><input name="destination" value="${esc(pref.destination||'')}" required></div><div class="field"><label>Caminhão</label><select name="truckId"><option value="">— Selecionar —</option>${trucks.map(t=>`<option value="${t.id}">${esc(t.plate)} · ${kg(t.capacity)}</option>`).join('')}</select></div><div class="field"><label>Motorista</label><select name="driverId"><option value="">— Selecionar —</option>${drivers.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('')}</select></div><div class="field"><label>Status</label><select name="status">${['Programado','Em carregamento','Em trânsito','Entregue','Em Retorno','Cancelado'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><label>Valor do frete (R$)</label><input name="value" type="number" step=".01" value="${pref.total||''}"></div><div class="field full"><label>Observações</label><textarea name="obs"></textarea></div><div class="field full"><button class="btn gold">Salvar deslocamento</button></div></div></form>`)}
+function saveTrip(e){e.preventDefault();let o=Object.fromEntries(new FormData(e.target));o.id=uid('trip');o.value=+o.value||0;o.clientName=db.clients.find(x=>x.id===o.clientId)?.name||'';o.truckPlate=db.trucks.find(x=>x.id===o.truckId)?.plate||'';o.driverName=db.drivers.find(x=>x.id===o.driverId)?.name||'';db.trips.push(o);syncTruck(o);save();closeModal();renderAll();}
+function syncTruck(t){
+ let truck=db.trucks.find(x=>x.id===t.truckId);
+ if(!truck)return;
+ if(t.status==='Programado') truck.status='Disponível';
+ else if(t.status==='Em carregamento'||t.status==='Em trânsito'||t.status==='Entregue'||t.status==='Em Retorno') truck.status='Em deslocamento';
+ else if(t.status==='Cancelado') truck.status='Disponível';
+}
+function advanceTrip(id){
+ let t=db.trips.find(x=>x.id===id);
+ if(!t)return;
+ const states=['Programado','Em carregamento','Em trânsito','Entregue','Em Retorno'];
+ let i=states.indexOf(t.status);
+ if(i>=0 && i<states.length-1){
+   t.status=states[i+1];
+   syncTruck(t);
+   save();
+   renderAll();
+ }else if(t.status==='Em Retorno'){
+   t.status='Disponível';
+   syncTruck(t);
+   save();
+   renderAll();
+ }else{
+   alert('Este deslocamento já foi finalizado.');
+ }
+}
+function openQuote(){let clients=db.clients,trucks=db.trucks;openModal('Nova cotação de frete',`<form onsubmit="saveQuote(event)"><div class="form"><div class="field"><label>Cliente *</label><select name="clientId" required><option value="">— Selecionar —</option>${clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>Data</label><input name="created" type="date" value="${new Date().toISOString().slice(0,10)}"></div><div class="field"><label>Origem *</label><input name="origin" required></div><div class="field"><label>Destino *</label><input name="destination" required></div><div class="field"><label>Peso da carga (kg) *</label><input name="weight" type="number" min="1" required></div><div class="field"><label>Tipo de carga</label><input name="cargoType" placeholder="Carga geral, fracionada..."></div><div class="field"><label>Distância (km)</label><input name="distance" id="qDistance" type="number" step=".1" value="0"></div><div class="field"><label>Pedágios (R$)</label><input name="toll" id="qToll" type="number" step=".01" value="${db.settings.toll||0}"></div><div class="field"><label>Caminhão sugerido</label><select name="truckId"><option value="">Automático pela capacidade</option>${trucks.map(t=>`<option value="${t.id}">${esc(t.plate)} · ${kg(t.capacity)}</option>`).join('')}</select></div><div class="field"><label>Valor final do frete (R$)</label><input name="total" id="qTotal" type="number" step=".01" required></div><div class="field full"><div class="mini" id="quoteCalc">Informe a distância e o peso para calcular.</div></div><div class="field full"><button type="button" class="btn" onclick="estimateQuote()">Calcular estimativa</button> <button class="btn gold">Salvar cotação</button></div></div></form>`)}
+function estimateQuote(){let distance=+qDistance.value||0,toll=+qToll.value||0,diesel=db.settings.diesel,cons=db.settings.consumption,op=db.settings.costKm,margin=db.settings.margin;let fuel=distance/Math.max(cons,0.1)*diesel,operation=distance*op,cost=fuel+operation+toll,total=cost*(1+margin/100);qTotal.value=total.toFixed(2);quoteCalc.innerHTML=`Combustível: <b>${money(fuel)}</b> · Operação: <b>${money(operation)}</b> · Pedágios: <b>${money(toll)}</b> · Custo: <b>${money(cost)}</b> · Margem: <b>${margin}%</b> · <strong>Sugerido: ${money(total)}</strong>`}
+function saveQuote(e){e.preventDefault();let o=Object.fromEntries(new FormData(e.target));o.id=uid('quote');o.weight=+o.weight;o.distance=+o.distance||0;o.toll=+o.toll||0;o.total=+o.total||0;let client=db.clients.find(x=>x.id===o.clientId);o.clientName=client?.name||'';o.cost=(o.distance/Math.max(db.settings.consumption,.1)*db.settings.diesel)+(o.distance*db.settings.costKm)+o.toll;o.status='Aberta';db.quotes.push(o);save();closeModal();renderAll();}
+function convertQuote(id){let q=db.quotes.find(x=>x.id===id);q.status='Convertida';save();openTrip({origin:q.origin,destination:q.destination,total:q.total,date:q.created});}
+function del(collection,id){if(!confirm('Excluir este registro?'))return;db[collection]=db[collection].filter(x=>x.id!==id);save();renderAll();}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-frotapro-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let file=e.target.files[0];if(!file)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.trucks||!x.clients)throw 0;db=x;save();renderAll();alert('Backup restaurado com sucesso.')}catch{alert('Arquivo inválido.')}};r.readAsText(file)}
+let map,routeLayer,markers=[];
+function initMap(){if(!map){map=L.map('map').setView([-15.78,-47.93],4);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map)}setTimeout(()=>map.invalidateSize(),100)}
+async function geocode(q){let r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=br&q='+encodeURIComponent(q));let a=await r.json();if(!a[0])throw new Error('Local não encontrado: '+q);return [+a[0].lat,+a[0].lon]}
+async function calculateMapRoute(){try{initMap();let a=await geocode(mapOrigin.value),b=await geocode(mapDestination.value);let r=await fetch(`https://router.project-osrm.org/route/v1/driving/${a[1]},${a[0]};${b[1]},${b[0]}?overview=full&geometries=geojson`),j=await r.json();if(!j.routes?.[0])throw 0;let rt=j.routes[0],dist=rt.distance/1000,dur=rt.duration/3600;if(routeLayer)map.removeLayer(routeLayer);markers.forEach(x=>map.removeLayer(x));markers=[];routeLayer=L.geoJSON(rt.geometry).addTo(map);markers.push(L.marker(a).addTo(map).bindPopup('Origem'));markers.push(L.marker(b).addTo(map).bindPopup('Destino'));map.fitBounds(routeLayer.getBounds(),{padding:[25,25]});let fuel=dist/db.settings.consumption*db.settings.diesel;routeInfo.innerHTML=`<div class="mini">Distância<b>${dist.toLocaleString('pt-BR',{maximumFractionDigits:1})} km</b></div><div class="mini">Tempo estimado<b>${Math.floor(dur)}h ${Math.round((dur%1)*60)}min</b></div><div class="mini">Combustível<b>${money(fuel)}</b></div>`}catch(e){alert(e.message||'Não foi possível calcular a rota. Verifique os locais e sua conexão.')}} 
+function clock(){clockEl=document.getElementById('clock');clockEl.textContent=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})}
+setInterval(clock,1000);clock();renderAll();
+</script>
+</body>
+</html>
