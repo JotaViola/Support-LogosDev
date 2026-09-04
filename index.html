@@ -4,107 +4,3755 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>LogosDev Project Hub</title>
+
 <style>
-:root{--gold:#CAB273;--gold2:#917847;--bg:#1f2023;--panel:#292a2e;--panel2:#303136;--border:#414247;--text:#f5f5f5;--muted:#a9abb1}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#cab27318,transparent 30%),var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.top{height:72px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:#1f2023ee;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,var(--gold),var(--gold2));color:#222;font-weight:900}.brand b{display:block}.brand small{color:var(--muted)}
-.actions{display:flex;gap:8px}.btn{border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 14px}.btn:hover{background:#393a3f}.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));border:0;color:#211f1a;font-weight:800}
-main{max-width:1400px;margin:auto;padding:34px 28px 60px}.hero{display:flex;justify-content:space-between;gap:25px;align-items:end;margin-bottom:27px}.hero h1{font-size:34px;margin:0 0 7px}.hero p{color:var(--muted);margin:0;line-height:1.5;max-width:700px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:23px}.stat{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:16px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:6px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.search{position:relative;flex:1;min-width:250px}.search span{position:absolute;left:13px;top:10px;color:var(--muted)}.search input{width:100%;padding:11px 12px 11px 36px;background:var(--panel);border:1px solid var(--border);border-radius:9px;color:var(--text);outline:0}
-select{padding:10px 12px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:9px}.views{display:flex;border:1px solid var(--border);border-radius:9px;overflow:hidden}.views button{border:0;background:var(--panel);color:var(--muted);padding:9px 13px}.views .active{background:var(--gold2);color:white}
-.projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:17px}.projects.list{display:flex;flex-direction:column}.projects.list .card{display:grid;grid-template-columns:95px 1fr auto;align-items:center}.projects.list .cover{height:95px;margin:6px;width:95px}.projects.list .body{padding:12px}.projects.list .footer{border:0;padding:12px}
-.card{overflow:hidden;background:var(--panel);border:1px solid var(--border);border-radius:15px;transition:.18s;box-shadow:0 8px 25px #00000018}.card:hover{transform:translateY(-3px);border-color:#585960}
-.cover{height:145px;background:linear-gradient(135deg,#36373b,#202125);position:relative;display:grid;place-items:center;overflow:hidden}.cover img{width:100%;height:100%;object-fit:cover}.cover .placeholder{font-size:40px;font-weight:900;color:#cab273dd}.status{position:absolute;top:10px;left:10px;background:#0008;padding:5px 8px;border-radius:6px;font-size:10px;font-weight:800}.fav{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;border:1px solid #ffffff22;background:#0007;color:white;font-size:18px}.fav.on{color:#ffd86b}
-.body{padding:17px}.body h3{margin:0 0 7px;font-size:17px}.desc{color:var(--muted);font-size:12px;line-height:1.5;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tags{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}.tag{font-size:10px;background:#38393e;color:#c5c6ca;padding:4px 7px;border-radius:5px}.footer{display:flex;gap:7px;padding:0 17px 16px}.footer .btn{flex:1;font-size:12px;text-align:center}
-.empty{grid-column:1/-1;text-align:center;padding:65px 20px;border:1px dashed var(--border);border-radius:16px;color:var(--muted)}
-.backdrop{position:fixed;inset:0;background:#000b;backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.backdrop.open{display:flex}.modal{width:min(700px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid #4a4b50;border-radius:16px}.mh{padding:19px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;position:sticky;top:0;background:var(--panel);z-index:2}.mh h2{margin:0;font-size:19px}.close{border:0;background:0;color:var(--muted);font-size:25px}.form{padding:21px 22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#c9cacf}.field input,.field textarea{width:100%;padding:11px 12px;background:#222326;border:1px solid var(--border);border-radius:9px;color:var(--text);outline:0}.field textarea{min-height:85px;resize:vertical}.help{font-size:10px;color:var(--muted)}.mf{padding:15px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:var(--panel)}.danger{color:#ff929b}.toast{position:fixed;right:22px;bottom:22px;background:#33343a;border:1px solid #4a4b50;padding:12px 16px;border-radius:9px;opacity:0;transform:translateY(10px);transition:.2s;z-index:100}.toast.show{opacity:1;transform:none}
-@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.hero{display:block}.hero .btn{margin-top:18px}}@media(max-width:600px){.top{padding:0 15px}.actions .btn:not(.primary){display:none}main{padding:25px 15px}.hero h1{font-size:28px}.grid{grid-template-columns:1fr}.full{grid-column:auto}.projects{grid-template-columns:1fr}.projects.list .card{display:block}.projects.list .cover{width:100%;height:130px;margin:0}}
+:root{
+  --gold:#CAB273;
+  --gold2:#917847;
+  --bg:#1f2023;
+  --panel:#292a2e;
+  --panel2:#303136;
+  --border:#414247;
+  --text:#f5f5f5;
+  --muted:#a9abb1;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at 10% 0%,#cab27318,transparent 30%),var(--bg);
+  color:var(--text);
+  font-family:Segoe UI,Arial,sans-serif;
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.top{
+  height:72px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  background:#1f2023ee;
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(12px);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,var(--gold),var(--gold2));
+  color:#222;
+  font-weight:900;
+}
+
+.brand b{display:block}
+.brand small{color:var(--muted)}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:var(--text);
+  border-radius:9px;
+  padding:10px 14px;
+}
+
+.btn:hover{
+  background:#393a3f;
+}
+
+.primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:0;
+  color:#211f1a;
+  font-weight:800;
+}
+
+main{
+  max-width:1400px;
+  margin:auto;
+  padding:34px 28px 60px;
+}
+
+.hero{
+  display:flex;
+  justify-content:space-between;
+  gap:25px;
+  align-items:end;
+  margin-bottom:27px;
+}
+
+.hero h1{
+  font-size:34px;
+  margin:0 0 7px;
+}
+
+.hero p{
+  color:var(--muted);
+  margin:0;
+  line-height:1.5;
+  max-width:700px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin-bottom:23px;
+}
+
+.stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:16px;
+}
+
+.stat small{color:var(--muted)}
+
+.stat strong{
+  display:block;
+  font-size:25px;
+  margin-top:6px;
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.search{
+  position:relative;
+  flex:1;
+  min-width:250px;
+}
+
+.search span{
+  position:absolute;
+  left:13px;
+  top:10px;
+  color:var(--muted);
+}
+
+.search input{
+  width:100%;
+  padding:11px 12px 11px 36px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--text);
+  outline:0;
+}
+
+select{
+  padding:10px 12px;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:9px;
+}
+
+.views{
+  display:flex;
+  border:1px solid var(--border);
+  border-radius:9px;
+  overflow:hidden;
+}
+
+.views button{
+  border:0;
+  background:var(--panel);
+  color:var(--muted);
+  padding:9px 13px;
+}
+
+.views .active{
+  background:var(--gold2);
+  color:white;
+}
+
+.projects{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(285px,1fr));
+  gap:17px;
+}
+
+.projects.list{
+  display:flex;
+  flex-direction:column;
+}
+
+.projects.list .card{
+  display:grid;
+  grid-template-columns:95px 1fr auto;
+  align-items:center;
+}
+
+.projects.list .cover{
+  height:95px;
+  margin:6px;
+  width:95px;
+}
+
+.projects.list .body{padding:12px}
+
+.projects.list .footer{
+  border:0;
+  padding:12px;
+}
+
+.card{
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  transition:.18s;
+  box-shadow:0 8px 25px #00000018;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:#585960;
+}
+
+.cover{
+  height:145px;
+  background:linear-gradient(135deg,#36373b,#202125);
+  position:relative;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.cover .placeholder{
+  font-size:40px;
+  font-weight:900;
+  color:#cab273dd;
+}
+
+.status{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#0008;
+  padding:5px 8px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.fav{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid #ffffff22;
+  background:#0007;
+  color:white;
+  font-size:18px;
+}
+
+.fav.on{color:#ffd86b}
+
+.body{padding:17px}
+
+.body h3{
+  margin:0 0 7px;
+  font-size:17px;
+}
+
+.desc{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  min-height:36px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.tags{
+  display:flex;
+  gap:6px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.tag{
+  font-size:10px;
+  background:#38393e;
+  color:#c5c6ca;
+  padding:4px 7px;
+  border-radius:5px;
+}
+
+.footer{
+  display:flex;
+  gap:7px;
+  padding:0 17px 16px;
+}
+
+.footer .btn{
+  flex:1;
+  font-size:12px;
+  text-align:center;
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:65px 20px;
+  border:1px dashed var(--border);
+  border-radius:16px;
+  color:var(--muted);
+}
+
+.backdrop{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  backdrop-filter:blur(5px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
+}
+
+.backdrop.open{display:flex}
+
+.modal{
+  width:min(700px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid #4a4b50;
+  border-radius:16px;
+}
+
+.mh{
+  padding:19px 22px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  background:var(--panel);
+  z-index:2;
+}
+
+.mh h2{
+  margin:0;
+  font-size:19px;
+}
+
+.close{
+  border:0;
+  background:0;
+  color:var(--muted);
+  font-size:25px;
+}
+
+.form{
+  padding:21px 22px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.full{grid-column:1/-1}
+
+.field label{
+  font-size:11px;
+  font-weight:700;
+  color:#c9cacf;
+}
+
+.field input,
+.field textarea{
+  width:100%;
+  padding:11px 12px;
+  background:#222326;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--text);
+  outline:0;
+}
+
+.field textarea{
+  min-height:85px;
+  resize:vertical;
+}
+
+.help{
+  font-size:10px;
+  color:var(--muted);
+}
+
+.mf{
+  padding:15px 22px;
+  border-top:1px solid var(--border);
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  position:sticky;
+  bottom:0;
+  background:var(--panel);
+}
+
+.danger{color:#ff929b}
+
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#33343a;
+  border:1px solid #4a4b50;
+  padding:12px 16px;
+  border-radius:9px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:.2s;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+  transform:none;
+}
+
+/* =========================================================
+   CENTRAL DE TICKETS
+========================================================= */
+
+.ticket-section{
+  display:none;
+}
+
+.ticket-section.active{
+  display:block;
+}
+
+.ticket-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+  margin-bottom:25px;
+}
+
+.ticket-head h1{
+  margin:0 0 7px;
+  font-size:34px;
+}
+
+.ticket-head p{
+  color:var(--muted);
+  margin:0;
+}
+
+.ticket-stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:13px;
+  margin-bottom:22px;
+}
+
+.ticket-stat{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:16px;
+}
+
+.ticket-stat small{
+  color:var(--muted);
+}
+
+.ticket-stat strong{
+  display:block;
+  font-size:25px;
+  margin-top:6px;
+}
+
+.ticket-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.ticket-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:17px;
+  display:grid;
+  grid-template-columns:110px 1fr auto;
+  gap:17px;
+  align-items:center;
+  transition:.15s;
+}
+
+.ticket-card:hover{
+  border-color:#5a5b60;
+  transform:translateY(-1px);
+}
+
+.ticket-number{
+  font-size:15px;
+  font-weight:900;
+  color:var(--gold);
+}
+
+.ticket-date{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+.ticket-title{
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.ticket-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.ticket-badges{
+  display:flex;
+  gap:7px;
+  margin-top:9px;
+  flex-wrap:wrap;
+}
+
+.ticket-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:800;
+  background:#38393e;
+}
+
+.ticket-badge.aberto{color:#8fd5ff}
+.ticket-badge.atendimento{color:#ffd86b}
+.ticket-badge.aguardando{color:#c5a6ff}
+.ticket-badge.resolvido{color:#8be0a8}
+.ticket-badge.fechado{color:#a9abb1}
+
+.ticket-badge.alta{color:#ff929b}
+.ticket-badge.media{color:#ffd86b}
+.ticket-badge.baixa{color:#8be0a8}
+
+.ticket-actions{
+  display:flex;
+  gap:7px;
+}
+
+.ticket-empty{
+  text-align:center;
+  padding:65px 20px;
+  border:1px dashed var(--border);
+  border-radius:16px;
+  color:var(--muted);
+}
+
+.ticket-detail{
+  padding:22px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+  margin-bottom:20px;
+}
+
+.detail-box{
+  background:#222326;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:13px;
+}
+
+.detail-box small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:6px;
+}
+
+.detail-box strong{
+  font-size:13px;
+}
+
+.detail-box select{
+  width:100%;
+  padding:7px 9px;
+}
+
+.ticket-description{
+  background:#222326;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:15px;
+  color:#ddd;
+  line-height:1.6;
+  white-space:pre-wrap;
+  margin-bottom:20px;
+}
+
+.ticket-reply{
+  border-top:1px solid var(--border);
+  padding-top:18px;
+}
+
+.ticket-reply label{
+  display:block;
+  margin-bottom:8px;
+  font-size:12px;
+}
+
+.ticket-reply textarea{
+  width:100%;
+  min-height:100px;
+  padding:12px;
+  background:#222326;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--text);
+  resize:vertical;
+}
+
+.ticket-reply-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.ticket-history{
+  margin-top:22px;
+  border-top:1px solid var(--border);
+  padding-top:18px;
+}
+
+.history-title{
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.history-item{
+  padding:11px 0;
+  border-bottom:1px solid #ffffff0b;
+  color:#ddd;
+  font-size:12px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+
+.history-item small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.ticket-client-info{
+  background:#222326;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:18px;
+}
+
+.ticket-client-info b{
+  color:var(--gold);
+}
+
+.ticket-filter-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.ticket-filter-row .search{
+  flex:1;
+}
+
+.ticket-top-actions{
+  display:flex;
+  gap:8px;
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media(max-width:900px){
+
+  .ticket-stats{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .ticket-card{
+    grid-template-columns:1fr;
+  }
+
+  .ticket-actions{
+    justify-content:flex-start;
+  }
+}
+
+@media(max-width:850px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero{
+    display:block;
+  }
+
+  .hero .actions{
+    margin-top:18px;
+  }
+}
+
+@media(max-width:600px){
+
+  .top{
+    padding:0 15px;
+  }
+
+  .actions .btn:not(.primary){
+    display:none;
+  }
+
+  main{
+    padding:25px 15px;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .projects{
+    grid-template-columns:1fr;
+  }
+
+  .projects.list .card{
+    display:block;
+  }
+
+  .projects.list .cover{
+    width:100%;
+    height:130px;
+    margin:0;
+  }
+
+  .ticket-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .ticket-head{
+    display:block;
+  }
+
+  .ticket-head .btn{
+    margin-top:15px;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ticket-reply-actions{
+    flex-direction:column;
+    align-items:stretch;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header class="top">
-  <div class="brand"><div class="logo">L</div><div><b>LogosDev</b><small>Project Hub</small></div></div>
-  <div class="actions">
-    <button class="btn" onclick="exportar()">⬇ Backup</button>
-    <button class="btn" onclick="document.getElementById('importar').click()">⬆ Restaurar</button>
-    <button class="btn primary" onclick="abrirModal()">＋ Novo Projeto</button>
+
+  <div class="brand">
+    <div class="logo">L</div>
+    <div>
+      <b>LogosDev</b>
+      <small>Project Hub</small>
+    </div>
   </div>
+
+  <div class="actions">
+
+    <button class="btn" onclick="exportar()">
+      ⬇ Backup
+    </button>
+
+    <button class="btn" onclick="$('importar').click()">
+      ⬆ Restaurar
+    </button>
+
+    <button class="btn" onclick="mostrarTickets()">
+      🎫 Tickets
+    </button>
+
+    <button class="btn primary" onclick="abrirModal()">
+      ＋ Novo Projeto
+    </button>
+
+  </div>
+
 </header>
 
-<main>
-<section class="hero"><div><h1>Project Hub</h1><p>Todos os seus projetos, sistemas e ferramentas em um só lugar. Cadastre o link publicado e o repositório do GitHub para acessar rapidamente.</p></div><button class="btn primary" onclick="abrirModal()">＋ Adicionar projeto</button></section>
+
+<!-- =========================================================
+     ÁREA DE PROJETOS
+========================================================= -->
+
+<main id="projetosMain">
+
+<section class="hero">
+
+  <div>
+
+    <h1>Project Hub</h1>
+
+    <p>
+      Todos os seus projetos, sistemas e ferramentas em um só lugar.
+      Cadastre o link publicado e o repositório do GitHub para acessar rapidamente.
+    </p>
+
+  </div>
+
+  <div class="actions">
+
+    <button class="btn primary" onclick="abrirModal()">
+      ＋ Adicionar projeto
+    </button>
+
+    <button class="btn" onclick="abrirNovoTicket()">
+      🎫 Abrir chamado
+    </button>
+
+  </div>
+
+</section>
+
+
 <section class="stats">
-<div class="stat"><small>Total de projetos</small><strong id="total">0</strong></div>
-<div class="stat"><small>Ativos</small><strong id="ativos">0</strong></div>
-<div class="stat"><small>Em desenvolvimento</small><strong id="dev">0</strong></div>
-<div class="stat"><small>Favoritos</small><strong id="favoritos">0</strong></div>
+
+  <div class="stat">
+    <small>Total de projetos</small>
+    <strong id="total">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>Ativos</small>
+    <strong id="ativos">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>Em desenvolvimento</small>
+    <strong id="dev">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>Favoritos</small>
+    <strong id="favoritos">0</strong>
+  </div>
+
 </section>
+
+
 <section class="toolbar">
-<div class="search"><span>⌕</span><input id="busca" placeholder="Pesquisar projetos..." oninput="render()"></div>
-<select id="fCategoria" onchange="render()"><option value="">Todas as categorias</option></select>
-<select id="fStatus" onchange="render()"><option value="">Todos os status</option><option value="ativo">Ativo</option><option value="desenvolvimento">Em desenvolvimento</option><option value="concluido">Concluído</option><option value="arquivado">Arquivado</option></select>
-<select id="ordem" onchange="render()"><option value="recentes">Mais recentes</option><option value="nome">Nome A–Z</option><option value="favoritos">Favoritos</option></select>
-<div class="views"><button id="gridBtn" class="active" onclick="visual('grid')">▦</button><button id="listBtn" onclick="visual('list')">☷</button></div>
+
+  <div class="search">
+    <span>⌕</span>
+    <input
+      id="busca"
+      placeholder="Pesquisar projetos..."
+      oninput="render()"
+    >
+  </div>
+
+  <select id="fCategoria" onchange="render()">
+    <option value="">Todas as categorias</option>
+  </select>
+
+  <select id="fStatus" onchange="render()">
+
+    <option value="">Todos os status</option>
+
+    <option value="ativo">
+      Ativo
+    </option>
+
+    <option value="desenvolvimento">
+      Em desenvolvimento
+    </option>
+
+    <option value="concluido">
+      Concluído
+    </option>
+
+    <option value="arquivado">
+      Arquivado
+    </option>
+
+  </select>
+
+  <select id="ordem" onchange="render()">
+
+    <option value="recentes">
+      Mais recentes
+    </option>
+
+    <option value="nome">
+      Nome A–Z
+    </option>
+
+    <option value="favoritos">
+      Favoritos
+    </option>
+
+  </select>
+
+  <div class="views">
+
+    <button
+      id="gridBtn"
+      class="active"
+      onclick="visual('grid')"
+    >
+      ▦
+    </button>
+
+    <button
+      id="listBtn"
+      onclick="visual('list')"
+    >
+      ☷
+    </button>
+
+  </div>
+
 </section>
+
+
 <section id="projects" class="projects"></section>
+
 </main>
 
-<div id="modal" class="backdrop" onclick="fora(event)"><div class="modal">
-<div class="mh"><h2 id="titulo">Novo projeto</h2><button class="close" onclick="fechar()">×</button></div>
-<form class="form" onsubmit="salvar(event)">
-<div class="grid">
-<div class="field"><label>Nome do projeto *</label><input id="nome" required placeholder="Ex.: Sistema de Gestão de Frota"></div>
-<div class="field"><label>Categoria *</label><input id="categoria" required list="listaCategorias" placeholder="Ex.: Gestão"><datalist id="listaCategorias"></datalist></div>
-<div class="field full"><label>Descrição</label><textarea id="descricao" placeholder="Descreva rapidamente o projeto..."></textarea></div>
-<div class="field"><label>URL do projeto</label><input id="url" type="url" placeholder="https://..."><span class="help">Link para abrir o sistema/site publicado.</span></div>
-<div class="field"><label>URL do GitHub</label><input id="github" type="url" placeholder="https://github.com/..."><span class="help">Link do repositório.</span></div>
-<div class="field"><label>Imagem / capa</label><input id="capa" type="url" placeholder="https://.../imagem.png"></div>
-<div class="field"><label>Ícone / emoji</label><input id="icone" maxlength="4" placeholder="💻"></div>
-<div class="field"><label>Status</label><select id="status"><option value="desenvolvimento">Em desenvolvimento</option><option value="ativo">Ativo</option><option value="concluido">Concluído</option><option value="arquivado">Arquivado</option></select></div>
-<div class="field"><label>Favorito</label><select id="fav"><option value="false">Não</option><option value="true">⭐ Sim</option></select></div>
-<div class="field full"><label>Observações</label><textarea id="obs" placeholder="Notas internas..."></textarea></div>
+
+<!-- =========================================================
+     CENTRAL DE TICKETS
+========================================================= -->
+
+<section id="ticketsSection" class="ticket-section">
+
+<main>
+
+  <div class="ticket-head">
+
+    <div>
+
+      <h1>🎫 Central de Tickets</h1>
+
+      <p>
+        Gerencie as solicitações de suporte dos clientes.
+      </p>
+
+    </div>
+
+    <div class="ticket-top-actions">
+
+      <button class="btn" onclick="mostrarProjetos()">
+        ← Projetos
+      </button>
+
+      <button class="btn primary" onclick="abrirNovoTicket()">
+        ＋ Novo chamado
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ESTATÍSTICAS -->
+
+  <section class="ticket-stats">
+
+    <div class="ticket-stat">
+      <small>Total</small>
+      <strong id="tkTotal">0</strong>
+    </div>
+
+    <div class="ticket-stat">
+      <small>Aberto</small>
+      <strong id="tkAberto">0</strong>
+    </div>
+
+    <div class="ticket-stat">
+      <small>Em atendimento</small>
+      <strong id="tkAtendimento">0</strong>
+    </div>
+
+    <div class="ticket-stat">
+      <small>Aguardando cliente</small>
+      <strong id="tkAguardando">0</strong>
+    </div>
+
+    <div class="ticket-stat">
+      <small>Resolvido</small>
+      <strong id="tkResolvido">0</strong>
+    </div>
+
+  </section>
+
+
+  <!-- FILTROS -->
+
+  <section class="ticket-filter-row">
+
+    <div class="search">
+
+      <span>⌕</span>
+
+      <input
+        id="tkBusca"
+        placeholder="Pesquisar chamados..."
+        oninput="renderTickets()"
+      >
+
+    </div>
+
+
+    <select id="tkStatus" onchange="renderTickets()">
+
+      <option value="">
+        Todos os status
+      </option>
+
+      <option value="aberto">
+        Aberto
+      </option>
+
+      <option value="atendimento">
+        Em atendimento
+      </option>
+
+      <option value="aguardando">
+        Aguardando cliente
+      </option>
+
+      <option value="resolvido">
+        Resolvido
+      </option>
+
+      <option value="fechado">
+        Fechado
+      </option>
+
+    </select>
+
+
+    <select id="tkPrioridade" onchange="renderTickets()">
+
+      <option value="">
+        Todas as prioridades
+      </option>
+
+      <option value="alta">
+        Alta
+      </option>
+
+      <option value="media">
+        Média
+      </option>
+
+      <option value="baixa">
+        Baixa
+      </option>
+
+    </select>
+
+  </section>
+
+
+  <section id="ticketList" class="ticket-list"></section>
+
+</main>
+
+</section>
+
+
+<!-- =========================================================
+     MODAL PROJETO
+========================================================= -->
+
+<div
+  id="modal"
+  class="backdrop"
+  onclick="fora(event)"
+>
+
+<div class="modal">
+
+  <div class="mh">
+
+    <h2 id="titulo">
+      Novo projeto
+    </h2>
+
+    <button
+      class="close"
+      onclick="fechar()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <form
+    class="form"
+    onsubmit="salvar(event)"
+  >
+
+    <div class="grid">
+
+      <div class="field">
+
+        <label>
+          Nome do projeto *
+        </label>
+
+        <input
+          id="nome"
+          required
+          placeholder="Ex.: Sistema de Gestão de Frota"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Categoria *
+        </label>
+
+        <input
+          id="categoria"
+          required
+          list="listaCategorias"
+          placeholder="Ex.: Gestão"
+        >
+
+        <datalist id="listaCategorias"></datalist>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Descrição
+        </label>
+
+        <textarea
+          id="descricao"
+          placeholder="Descreva rapidamente o projeto..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          URL do projeto
+        </label>
+
+        <input
+          id="url"
+          type="url"
+          placeholder="https://..."
+        >
+
+        <span class="help">
+          Link para abrir o sistema/site publicado.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          URL do GitHub
+        </label>
+
+        <input
+          id="github"
+          type="url"
+          placeholder="https://github.com/..."
+        >
+
+        <span class="help">
+          Link do repositório.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Imagem / capa
+        </label>
+
+        <input
+          id="capa"
+          type="url"
+          placeholder="https://.../imagem.png"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Ícone / emoji
+        </label>
+
+        <input
+          id="icone"
+          maxlength="4"
+          placeholder="💻"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Status
+        </label>
+
+        <select id="status">
+
+          <option value="desenvolvimento">
+            Em desenvolvimento
+          </option>
+
+          <option value="ativo">
+            Ativo
+          </option>
+
+          <option value="concluido">
+            Concluído
+          </option>
+
+          <option value="arquivado">
+            Arquivado
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Favorito
+        </label>
+
+        <select id="fav">
+
+          <option value="false">
+            Não
+          </option>
+
+          <option value="true">
+            ⭐ Sim
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Observações
+        </label>
+
+        <textarea
+          id="obs"
+          placeholder="Notas internas..."
+        ></textarea>
+
+      </div>
+
+    </div>
+
+  </form>
+
+
+  <div class="mf">
+
+    <button
+      id="excluir"
+      class="btn danger"
+      style="display:none;margin-right:auto"
+      onclick="excluir()"
+    >
+      Excluir
+    </button>
+
+    <button
+      class="btn"
+      onclick="fechar()"
+    >
+      Cancelar
+    </button>
+
+    <button
+      class="btn primary"
+      onclick="document.querySelector('#modal .form').requestSubmit()"
+    >
+      Salvar projeto
+    </button>
+
+  </div>
+
 </div>
-</form>
-<div class="mf"><button id="excluir" class="btn danger" style="display:none;margin-right:auto" onclick="excluir()">Excluir</button><button class="btn" onclick="fechar()">Cancelar</button><button class="btn primary" onclick="document.querySelector('.form').requestSubmit()">Salvar projeto</button></div>
-</div></div>
-<input id="importar" type="file" accept=".json" hidden onchange="importarBackup(event)">
-<div id="toast" class="toast"></div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL NOVO TICKET
+========================================================= -->
+
+<div
+  id="ticketModal"
+  class="backdrop"
+  onclick="foraTicket(event)"
+>
+
+<div class="modal">
+
+  <div class="mh">
+
+    <h2>
+      🎫 Abrir novo chamado
+    </h2>
+
+    <button
+      class="close"
+      onclick="fecharTicket()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <form
+    class="form"
+    onsubmit="salvarTicket(event)"
+  >
+
+    <div class="grid">
+
+
+      <div class="field">
+
+        <label>
+          Nome do cliente *
+        </label>
+
+        <input
+          id="tkCliente"
+          required
+          placeholder="Nome do cliente"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          E-mail *
+        </label>
+
+        <input
+          id="tkEmail"
+          type="email"
+          required
+          placeholder="cliente@email.com"
+        >
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Assunto *
+        </label>
+
+        <input
+          id="tkAssunto"
+          required
+          placeholder="Ex.: Não consigo acessar o sistema"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Categoria *
+        </label>
+
+        <select
+          id="tkCategoria"
+          required
+        >
+
+          <option value="">
+            Selecione
+          </option>
+
+          <option>
+            Suporte técnico
+          </option>
+
+          <option>
+            Acesso
+          </option>
+
+          <option>
+            Erro no sistema
+          </option>
+
+          <option>
+            Financeiro
+          </option>
+
+          <option>
+            Solicitação
+          </option>
+
+          <option>
+            Dúvida
+          </option>
+
+          <option>
+            Outro
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Prioridade
+        </label>
+
+        <select id="tkNovaPrioridade">
+
+          <option value="baixa">
+            Baixa
+          </option>
+
+          <option
+            value="media"
+            selected
+          >
+            Média
+          </option>
+
+          <option value="alta">
+            Alta
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Projeto relacionado
+        </label>
+
+        <select id="tkProjeto">
+
+          <option value="">
+            Nenhum projeto
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Descrição do problema *
+        </label>
+
+        <textarea
+          id="tkDescricao"
+          required
+          placeholder="Descreva detalhadamente o problema ou solicitação..."
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="mf">
+
+      <button
+        type="button"
+        class="btn"
+        onclick="fecharTicket()"
+      >
+        Cancelar
+      </button>
+
+      <button
+        class="btn primary"
+        type="submit"
+      >
+        🎫 Abrir chamado
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL DETALHES DO TICKET
+========================================================= -->
+
+<div
+  id="ticketDetailModal"
+  class="backdrop"
+  onclick="foraDetalheTicket(event)"
+>
+
+<div class="modal">
+
+  <div class="mh">
+
+    <h2 id="ticketDetailTitle">
+      Ticket
+    </h2>
+
+    <button
+      class="close"
+      onclick="fecharDetalheTicket()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <div
+    id="ticketDetailContent"
+    class="ticket-detail"
+  ></div>
+
+</div>
+
+</div>
+
+
+<input
+  id="importar"
+  type="file"
+  accept=".json"
+  hidden
+  onchange="importarBackup(event)"
+>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
 
 <script>
+
+/* =========================================================
+   PROJETOS
+========================================================= */
+
 const KEY="logosdev_project_hub";
-let projetos=[],editId=null,view="grid";
+
+let projetos=[];
+let editId=null;
+let view="grid";
+
+
 const $=id=>document.getElementById(id);
-function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function safe(u){try{let x=new URL(u);return["http:","https:"].includes(x.protocol)?x.href:""}catch{return""}}
-function load(){try{projetos=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(projetos))projetos=[]}catch{projetos=[]}render()}
-function store(){localStorage.setItem(KEY,JSON.stringify(projetos))}
-function label(s){return{ativo:"Ativo",desenvolvimento:"Em desenvolvimento",concluido:"Concluído",arquivado:"Arquivado"}[s]||"Sem status"}
-function cats(){let a=[...new Set(projetos.map(p=>p.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));let old=$("fCategoria").value;$("fCategoria").innerHTML='<option value="">Todas as categorias</option>'+a.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("");if(a.includes(old))$("fCategoria").value=old;$("listaCategorias").innerHTML=a.map(x=>`<option value="${esc(x)}">`).join("")}
-function render(){
-cats();$("total").textContent=projetos.length;$("ativos").textContent=projetos.filter(p=>p.status==="ativo").length;$("dev").textContent=projetos.filter(p=>p.status==="desenvolvimento").length;$("favoritos").textContent=projetos.filter(p=>p.favorito).length;
-let q=$("busca").value.toLowerCase(),c=$("fCategoria").value,s=$("fStatus").value,o=$("ordem").value;
-let a=projetos.filter(p=>[p.nome,p.descricao,p.categoria,p.obs].join(" ").toLowerCase().includes(q)&&(!c||p.categoria===c)&&(!s||p.status===s));
-if(o==="nome")a.sort((x,y)=>x.nome.localeCompare(y.nome,"pt-BR"));else if(o==="favoritos")a.sort((x,y)=>Number(y.favorito)-Number(x.favorito)||(y.criadoEm-x.criadoEm));else a.sort((x,y)=>(y.criadoEm||0)-(x.criadoEm||0));
-let box=$("projects");box.className="projects "+view;
-if(!a.length){box.innerHTML=`<div class="empty">${projetos.length?"🔎<br><br><b>Nenhum projeto encontrado</b><br>Tente alterar os filtros.":"🚀<br><br><b>Seu Hub ainda está vazio</b><br><br><button class='btn primary' onclick='abrirModal()'>＋ Adicionar primeiro projeto</button>"}</div>`;return}
-box.innerHTML=a.map(p=>{let img=safe(p.capa),url=safe(p.url),gh=safe(p.github),icon=p.icone||p.nome.slice(0,2).toUpperCase();return `<article class="card"><div class="cover">${img?`<img src="${esc(img)}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'>`:""}<div class="placeholder" style="${img?"display:none":""}">${esc(icon)}</div><div class="status">${esc(label(p.status))}</div><button class="fav ${p.favorito?"on":""}" onclick="fav('${p.id}')">${p.favorito?"★":"☆"}</button></div><div class="body"><h3>${esc(p.nome)}</h3><div class="desc">${esc(p.descricao||"Sem descrição cadastrada.")}</div><div class="tags"><span class="tag">${esc(p.categoria)}</span>${gh?'<span class="tag">GitHub</span>':""}</div></div><div class="footer"><button class="btn primary" onclick="${url?`openLink('${esc(url)}')`:`abrirModal('${p.id}')`}">${url?"↗ Abrir projeto":"✎ Editar"}</button>${gh?`<button class="btn" onclick="openLink('${esc(gh)}')">GitHub</button>`:""}<button class="btn" onclick="abrirModal('${p.id}')">⋯</button></div></article>`}).join("")
+
+
+function id(){
+
+  return Date.now().toString(36)+
+    Math.random().toString(36).slice(2,8);
+
 }
-function openLink(u){let x=safe(u);if(x)window.open(x,"_blank","noopener,noreferrer")}
-function visual(v){view=v;$("gridBtn").classList.toggle("active",v==="grid");$("listBtn").classList.toggle("active",v==="list");render()}
-function abrirModal(idv=null){editId=idv;let p=idv?projetos.find(x=>x.id===idv):null;$("titulo").textContent=p?"Editar projeto":"Novo projeto";$("excluir").style.display=p?"block":"none";$("nome").value=p?.nome||"";$("categoria").value=p?.categoria||"";$("descricao").value=p?.descricao||"";$("url").value=p?.url||"";$("github").value=p?.github||"";$("capa").value=p?.capa||"";$("icone").value=p?.icone||"";$("status").value=p?.status||"desenvolvimento";$("fav").value=String(!!p?.favorito);$("obs").value=p?.obs||"";$("modal").classList.add("open");setTimeout(()=>$("nome").focus(),50)}
-function fechar(){$("modal").classList.remove("open");editId=null}
-function fora(e){if(e.target.id==="modal")fechar()}
-function salvar(e){e.preventDefault();let d={nome:$("nome").value.trim(),categoria:$("categoria").value.trim(),descricao:$("descricao").value.trim(),url:$("url").value.trim(),github:$("github").value.trim(),capa:$("capa").value.trim(),icone:$("icone").value.trim(),status:$("status").value,favorito:$("fav").value==="true",obs:$("obs").value.trim()};if(editId){let i=projetos.findIndex(p=>p.id===editId);projetos[i]={...projetos[i],...d,atualizadoEm:Date.now()};toast("Projeto atualizado.")}else{projetos.unshift({id:id(),...d,criadoEm:Date.now(),atualizadoEm:Date.now()});toast("Projeto adicionado ao Hub.")}store();fechar();render()}
-function fav(i){let p=projetos.find(x=>x.id===i);if(p){p.favorito=!p.favorito;store();render()}}
-function excluir(){if(!editId)return;if(confirm("Excluir este projeto do Hub? O repositório do GitHub não será apagado.")){projetos=projetos.filter(p=>p.id!==editId);store();fechar();render();toast("Projeto excluído.")}}
-function exportar(){let b=new Blob([JSON.stringify({app:"LogosDev Project Hub",versao:1,projetos},null,2)],{type:"application/json"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="logosdev-project-hub-backup.json";a.click();URL.revokeObjectURL(u);toast("Backup exportado.")}
-function importarBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result),a=Array.isArray(d)?d:d.projetos;if(!Array.isArray(a))throw 0;let map=new Map(projetos.map(p=>[p.id,p]));a.forEach(p=>{if(p?.nome)map.set(p.id||id(),{...p,id:p.id||id()})});projetos=[...map.values()];store();render();toast("Backup restaurado.")}catch{alert("Backup inválido.")}e.target.value=""};r.readAsText(f)}
-function toast(t){let x=$("toast");x.textContent=t;x.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>x.classList.remove("show"),2400)}
-document.addEventListener("keydown",e=>{if(e.key==="Escape")fechar();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("busca").focus()}});
+
+
+function esc(v){
+
+  return String(v??"").replace(
+    /[&<>"']/g,
+    m=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m])
+  );
+
+}
+
+
+function safe(u){
+
+  try{
+
+    let x=new URL(u);
+
+    return ["http:","https:"].includes(x.protocol)
+      ?x.href
+      :"";
+
+  }catch{
+
+    return "";
+
+  }
+
+}
+
+
+function load(){
+
+  try{
+
+    projetos=JSON.parse(
+      localStorage.getItem(KEY)||"[]"
+    );
+
+    if(!Array.isArray(projetos))
+      projetos=[];
+
+  }catch{
+
+    projetos=[];
+
+  }
+
+  render();
+
+}
+
+
+function store(){
+
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(projetos)
+  );
+
+}
+
+
+function label(s){
+
+  return {
+
+    ativo:"Ativo",
+
+    desenvolvimento:"Em desenvolvimento",
+
+    concluido:"Concluído",
+
+    arquivado:"Arquivado"
+
+  }[s]||"Sem status";
+
+}
+
+
+function cats(){
+
+  let a=[
+    ...new Set(
+      projetos
+      .map(p=>p.categoria)
+      .filter(Boolean)
+    )
+  ].sort(
+    (a,b)=>a.localeCompare(b,"pt-BR")
+  );
+
+
+  let old=$("fCategoria").value;
+
+
+  $("fCategoria").innerHTML=
+    '<option value="">Todas as categorias</option>'+
+    a.map(
+      x=>`<option value="${esc(x)}">${esc(x)}</option>`
+    ).join("");
+
+
+  if(a.includes(old))
+    $("fCategoria").value=old;
+
+
+  $("listaCategorias").innerHTML=
+    a.map(
+      x=>`<option value="${esc(x)}">`
+    ).join("");
+
+}
+
+
+function render(){
+
+  cats();
+
+
+  $("total").textContent=
+    projetos.length;
+
+
+  $("ativos").textContent=
+    projetos.filter(
+      p=>p.status==="ativo"
+    ).length;
+
+
+  $("dev").textContent=
+    projetos.filter(
+      p=>p.status==="desenvolvimento"
+    ).length;
+
+
+  $("favoritos").textContent=
+    projetos.filter(
+      p=>p.favorito
+    ).length;
+
+
+  let q=
+    $("busca").value.toLowerCase();
+
+  let c=
+    $("fCategoria").value;
+
+  let s=
+    $("fStatus").value;
+
+  let o=
+    $("ordem").value;
+
+
+  let a=projetos.filter(
+
+    p=>
+
+      [p.nome,p.descricao,p.categoria,p.obs]
+      .join(" ")
+      .toLowerCase()
+      .includes(q)
+
+      &&
+
+      (!c||p.categoria===c)
+
+      &&
+
+      (!s||p.status===s)
+
+  );
+
+
+  if(o==="nome"){
+
+    a.sort(
+      (x,y)=>
+        x.nome.localeCompare(
+          y.nome,
+          "pt-BR"
+        )
+    );
+
+  }
+
+  else if(o==="favoritos"){
+
+    a.sort(
+      (x,y)=>
+        Number(y.favorito)-
+        Number(x.favorito)
+        ||
+        (y.criadoEm-x.criadoEm)
+    );
+
+  }
+
+  else{
+
+    a.sort(
+      (x,y)=>
+        (y.criadoEm||0)-
+        (x.criadoEm||0)
+    );
+
+  }
+
+
+  let box=$("projects");
+
+
+  box.className=
+    "projects "+view;
+
+
+  if(!a.length){
+
+    box.innerHTML=
+
+      `<div class="empty">
+
+        ${
+          projetos.length
+
+          ?
+
+          "🔎<br><br><b>Nenhum projeto encontrado</b><br>Tente alterar os filtros."
+
+          :
+
+          "🚀<br><br><b>Seu Hub ainda está vazio</b><br><br><button class='btn primary' onclick='abrirModal()'>＋ Adicionar primeiro projeto</button>"
+
+        }
+
+      </div>`;
+
+    return;
+
+  }
+
+
+  box.innerHTML=a.map(
+
+    p=>{
+
+      let img=safe(p.capa);
+
+      let url=safe(p.url);
+
+      let gh=safe(p.github);
+
+      let icon=
+        p.icone||
+        p.nome.slice(0,2).toUpperCase();
+
+
+      return `
+
+      <article class="card">
+
+        <div class="cover">
+
+          ${
+            img
+
+            ?
+
+            `<img
+              src="${esc(img)}"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
+            >`
+
+            :
+
+            ""
+
+          }
+
+
+          <div
+            class="placeholder"
+            style="${img?"display:none":""}"
+          >
+            ${esc(icon)}
+          </div>
+
+
+          <div class="status">
+            ${esc(label(p.status))}
+          </div>
+
+
+          <button
+            class="fav ${p.favorito?"on":""}"
+            onclick="fav('${p.id}')"
+          >
+            ${p.favorito?"★":"☆"}
+          </button>
+
+        </div>
+
+
+        <div class="body">
+
+          <h3>
+            ${esc(p.nome)}
+          </h3>
+
+          <div class="desc">
+            ${esc(
+              p.descricao||
+              "Sem descrição cadastrada."
+            )}
+          </div>
+
+
+          <div class="tags">
+
+            <span class="tag">
+              ${esc(p.categoria)}
+            </span>
+
+            ${
+              gh
+              ?
+
+              '<span class="tag">GitHub</span>'
+
+              :
+
+              ""
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="footer">
+
+          <button
+            class="btn primary"
+            onclick="${
+              url
+              ?
+              `openLink('${esc(url)}')`
+              :
+              `abrirModal('${p.id}')`
+            }"
+          >
+            ${
+              url
+              ?
+              "↗ Abrir projeto"
+              :
+              "✎ Editar"
+            }
+          </button>
+
+
+          ${
+            gh
+
+            ?
+
+            `<button
+              class="btn"
+              onclick="openLink('${esc(gh)}')"
+            >
+              GitHub
+            </button>`
+
+            :
+
+            ""
+
+          }
+
+
+          <button
+            class="btn"
+            onclick="abrirModal('${p.id}')"
+          >
+            ⋯
+          </button>
+
+        </div>
+
+      </article>
+
+      `;
+
+    }
+
+  ).join("");
+
+}
+
+
+function openLink(u){
+
+  let x=safe(u);
+
+  if(x){
+
+    window.open(
+      x,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  }
+
+}
+
+
+function visual(v){
+
+  view=v;
+
+  $("gridBtn").classList.toggle(
+    "active",
+    v==="grid"
+  );
+
+  $("listBtn").classList.toggle(
+    "active",
+    v==="list"
+  );
+
+  render();
+
+}
+
+
+function abrirModal(idv=null){
+
+  editId=idv;
+
+  let p=
+    idv
+    ?
+    projetos.find(x=>x.id===idv)
+    :
+    null;
+
+
+  $("titulo").textContent=
+    p
+    ?
+    "Editar projeto"
+    :
+    "Novo projeto";
+
+
+  $("excluir").style.display=
+    p
+    ?
+    "block"
+    :
+    "none";
+
+
+  $("nome").value=
+    p?.nome||"";
+
+  $("categoria").value=
+    p?.categoria||"";
+
+  $("descricao").value=
+    p?.descricao||"";
+
+  $("url").value=
+    p?.url||"";
+
+  $("github").value=
+    p?.github||"";
+
+  $("capa").value=
+    p?.capa||"";
+
+  $("icone").value=
+    p?.icone||"";
+
+  $("status").value=
+    p?.status||
+    "desenvolvimento";
+
+  $("fav").value=
+    String(!!p?.favorito);
+
+  $("obs").value=
+    p?.obs||"";
+
+
+  $("modal").classList.add("open");
+
+
+  setTimeout(
+    ()=>$("nome").focus(),
+    50
+  );
+
+}
+
+
+function fechar(){
+
+  $("modal").classList.remove("open");
+
+  editId=null;
+
+}
+
+
+function fora(e){
+
+  if(e.target.id==="modal")
+    fechar();
+
+}
+
+
+function salvar(e){
+
+  e.preventDefault();
+
+
+  let d={
+
+    nome:$("nome").value.trim(),
+
+    categoria:$("categoria").value.trim(),
+
+    descricao:$("descricao").value.trim(),
+
+    url:$("url").value.trim(),
+
+    github:$("github").value.trim(),
+
+    capa:$("capa").value.trim(),
+
+    icone:$("icone").value.trim(),
+
+    status:$("status").value,
+
+    favorito:$("fav").value==="true",
+
+    obs:$("obs").value.trim()
+
+  };
+
+
+  if(editId){
+
+    let i=
+      projetos.findIndex(
+        p=>p.id===editId
+      );
+
+
+    projetos[i]={
+      ...projetos[i],
+      ...d,
+      atualizadoEm:Date.now()
+    };
+
+
+    toast(
+      "Projeto atualizado."
+    );
+
+  }
+
+  else{
+
+    projetos.unshift({
+
+      id:id(),
+
+      ...d,
+
+      criadoEm:Date.now(),
+
+      atualizadoEm:Date.now()
+
+    });
+
+
+    toast(
+      "Projeto adicionado ao Hub."
+    );
+
+  }
+
+
+  store();
+
+  fechar();
+
+  render();
+
+}
+
+
+function fav(i){
+
+  let p=
+    projetos.find(
+      x=>x.id===i
+    );
+
+
+  if(p){
+
+    p.favorito=
+      !p.favorito;
+
+    store();
+
+    render();
+
+  }
+
+}
+
+
+function excluir(){
+
+  if(!editId)
+    return;
+
+
+  if(
+    confirm(
+      "Excluir este projeto do Hub? O repositório do GitHub não será apagado."
+    )
+  ){
+
+    projetos=
+      projetos.filter(
+        p=>p.id!==editId
+      );
+
+
+    store();
+
+    fechar();
+
+    render();
+
+    toast(
+      "Projeto excluído."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   TICKETS
+========================================================= */
+
+const TICKET_KEY=
+  "logosdev_tickets";
+
+
+let tickets=[];
+
+let ticketEditId=null;
+
+
+function loadTickets(){
+
+  try{
+
+    tickets=
+      JSON.parse(
+        localStorage.getItem(
+          TICKET_KEY
+        )||"[]"
+      );
+
+
+    if(!Array.isArray(tickets))
+      tickets=[];
+
+  }
+
+  catch{
+
+    tickets=[];
+
+  }
+
+
+  renderTickets();
+
+}
+
+
+function storeTickets(){
+
+  localStorage.setItem(
+    TICKET_KEY,
+    JSON.stringify(tickets)
+  );
+
+}
+
+
+function gerarNumeroTicket(){
+
+  let numero=
+    Number(
+      localStorage.getItem(
+        "logosdev_ticket_seq"
+      )||0
+    )+1;
+
+
+  localStorage.setItem(
+    "logosdev_ticket_seq",
+    String(numero)
+  );
+
+
+  return "TK-"+
+    String(numero).padStart(4,"0");
+
+}
+
+
+function ticketStatusLabel(status){
+
+  return {
+
+    aberto:"Aberto",
+
+    atendimento:"Em atendimento",
+
+    aguardando:"Aguardando cliente",
+
+    resolvido:"Resolvido",
+
+    fechado:"Fechado"
+
+  }[status]||status;
+
+}
+
+
+function ticketPrioridadeLabel(prioridade){
+
+  return {
+
+    alta:"Alta",
+
+    media:"Média",
+
+    baixa:"Baixa"
+
+  }[prioridade]||prioridade;
+
+}
+
+
+function formatarData(data){
+
+  if(!data)
+    return "—";
+
+
+  return new Date(data)
+    .toLocaleString(
+      "pt-BR"
+    );
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+function mostrarTickets(){
+
+  $("projetosMain").style.display=
+    "none";
+
+  $("ticketsSection").classList.add(
+    "active"
+  );
+
+
+  renderTickets();
+
+}
+
+
+function mostrarProjetos(){
+
+  $("ticketsSection").classList.remove(
+    "active"
+  );
+
+  $("projetosMain").style.display=
+    "";
+
+
+  render();
+
+}
+
+
+/* =========================================================
+   NOVO TICKET
+========================================================= */
+
+function abrirNovoTicket(){
+
+  $("tkCliente").value="";
+  $("tkEmail").value="";
+  $("tkAssunto").value="";
+  $("tkCategoria").value="";
+  $("tkNovaPrioridade").value="media";
+  $("tkDescricao").value="";
+
+
+  $("tkProjeto").innerHTML=
+    '<option value="">Nenhum projeto</option>'+
+
+    projetos.map(
+
+      p=>
+
+      `<option value="${esc(p.id)}">
+        ${esc(p.nome)}
+      </option>`
+
+    ).join("");
+
+
+  $("ticketModal").classList.add(
+    "open"
+  );
+
+
+  setTimeout(
+    ()=>$("tkCliente").focus(),
+    50
+  );
+
+}
+
+
+function fecharTicket(){
+
+  $("ticketModal")
+    .classList.remove("open");
+
+}
+
+
+function foraTicket(e){
+
+  if(
+    e.target.id==="ticketModal"
+  ){
+
+    fecharTicket();
+
+  }
+
+}
+
+
+/* =========================================================
+   SALVAR TICKET
+========================================================= */
+
+function salvarTicket(e){
+
+  e.preventDefault();
+
+
+  let projetoId=
+    $("tkProjeto").value;
+
+
+  let projeto=
+    projetos.find(
+      p=>p.id===projetoId
+    );
+
+
+  let agora=
+    Date.now();
+
+
+  let ticket={
+
+    id:id(),
+
+    numero:gerarNumeroTicket(),
+
+    cliente:
+      $("tkCliente")
+      .value
+      .trim(),
+
+    email:
+      $("tkEmail")
+      .value
+      .trim(),
+
+    assunto:
+      $("tkAssunto")
+      .value
+      .trim(),
+
+    categoria:
+      $("tkCategoria")
+      .value,
+
+    prioridade:
+      $("tkNovaPrioridade")
+      .value,
+
+    projetoId:
+
+      projetoId,
+
+    projetoNome:
+
+      projeto?.nome||"",
+
+    descricao:
+      $("tkDescricao")
+      .value
+      .trim(),
+
+    status:
+      "aberto",
+
+    criadoEm:
+      agora,
+
+    atualizadoEm:
+      agora,
+
+    respostas:[]
+
+  };
+
+
+  tickets.unshift(
+    ticket
+  );
+
+
+  storeTickets();
+
+  fecharTicket();
+
+  renderTickets();
+
+
+  toast(
+    "Chamado "+
+    ticket.numero+
+    " aberto com sucesso."
+  );
+
+
+  mostrarTickets();
+
+}
+
+
+/* =========================================================
+   RENDER TICKETS
+========================================================= */
+
+function renderTickets(){
+
+  if(!$("ticketList"))
+    return;
+
+
+  let q=
+    ($("tkBusca")?.value||"")
+    .toLowerCase();
+
+
+  let status=
+    $("tkStatus")?.value||"";
+
+
+  let prioridade=
+    $("tkPrioridade")?.value||"";
+
+
+  $("tkTotal").textContent=
+    tickets.length;
+
+
+  $("tkAberto").textContent=
+    tickets.filter(
+      t=>t.status==="aberto"
+    ).length;
+
+
+  $("tkAtendimento").textContent=
+    tickets.filter(
+      t=>t.status==="atendimento"
+    ).length;
+
+
+  $("tkAguardando").textContent=
+    tickets.filter(
+      t=>t.status==="aguardando"
+    ).length;
+
+
+  $("tkResolvido").textContent=
+    tickets.filter(
+      t=>t.status==="resolvido"
+    ).length;
+
+
+  let lista=
+    tickets.filter(
+
+      t=>
+
+        [
+
+          t.numero,
+
+          t.cliente,
+
+          t.email,
+
+          t.assunto,
+
+          t.categoria,
+
+          t.projetoNome,
+
+          t.descricao
+
+        ]
+
+        .join(" ")
+
+        .toLowerCase()
+
+        .includes(q)
+
+        &&
+
+        (!status||
+          t.status===status)
+
+        &&
+
+        (!prioridade||
+          t.prioridade===prioridade)
+
+    );
+
+
+  lista.sort(
+    (a,b)=>
+      (b.atualizadoEm||0)-
+      (a.atualizadoEm||0)
+  );
+
+
+  if(!lista.length){
+
+    $("ticketList").innerHTML=`
+
+      <div class="ticket-empty">
+
+        🎫
+
+        <br><br>
+
+        <b>
+          Nenhum chamado encontrado
+        </b>
+
+        <br><br>
+
+        ${
+          tickets.length
+          ?
+          "Tente alterar os filtros."
+          :
+          "Ainda não existem chamados registrados."
+        }
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  $("ticketList").innerHTML=
+
+    lista.map(
+
+      t=>`
+
+      <article class="ticket-card">
+
+
+        <div>
+
+          <div class="ticket-number">
+
+            #${esc(t.numero)}
+
+          </div>
+
+
+          <div class="ticket-date">
+
+            Aberto em<br>
+
+            ${esc(
+              formatarData(
+                t.criadoEm
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <div class="ticket-title">
+
+            ${esc(t.assunto)}
+
+          </div>
+
+
+          <div class="ticket-meta">
+
+            <span>
+              👤 ${esc(t.cliente)}
+            </span>
+
+            <span>
+              ✉ ${esc(t.email)}
+            </span>
+
+            <span>
+              📁 ${esc(t.categoria)}
+            </span>
+
+            ${
+              t.projetoNome
+
+              ?
+
+              `<span>
+                💻 ${esc(t.projetoNome)}
+              </span>`
+
+              :
+
+              ""
+
+            }
+
+          </div>
+
+
+          <div class="ticket-badges">
+
+            <span
+              class="ticket-badge ${esc(t.status)}"
+            >
+              ${esc(
+                ticketStatusLabel(
+                  t.status
+                )
+              )}
+            </span>
+
+
+            <span
+              class="ticket-badge ${esc(t.prioridade)}"
+            >
+              Prioridade:
+              ${esc(
+                ticketPrioridadeLabel(
+                  t.prioridade
+                )
+              )}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="ticket-actions">
+
+          <button
+            class="btn primary"
+            onclick="abrirDetalheTicket('${t.id}')"
+          >
+            Ver chamado
+          </button>
+
+        </div>
+
+
+      </article>
+
+      `
+
+    ).join("");
+
+}
+
+
+/* =========================================================
+   DETALHES DO TICKET
+========================================================= */
+
+function abrirDetalheTicket(ticketId){
+
+  let t=
+    tickets.find(
+      x=>x.id===ticketId
+    );
+
+
+  if(!t)
+    return;
+
+
+  ticketEditId=
+    ticketId;
+
+
+  $("ticketDetailTitle").textContent=
+    "#"+
+    t.numero+
+    " · "+
+    t.assunto;
+
+
+  let historico=
+    t.respostas||[];
+
+
+  $("ticketDetailContent").innerHTML=`
+
+    <div class="ticket-client-info">
+
+      <b>Cliente</b>
+
+      <br>
+
+      ${esc(t.cliente)}
+
+      <br>
+
+      <span style="color:var(--muted)">
+        ${esc(t.email)}
+      </span>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+
+      <div class="detail-box">
+
+        <small>
+          Categoria
+        </small>
+
+        <strong>
+          ${esc(t.categoria)}
+        </strong>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <small>
+          Projeto relacionado
+        </small>
+
+        <strong>
+          ${esc(
+            t.projetoNome||
+            "Nenhum"
+          )}
+        </strong>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <small>
+          Status
+        </small>
+
+        <select
+          onchange="alterarStatusTicket(this.value)"
+        >
+
+          <option
+            value="aberto"
+            ${t.status==="aberto"?"selected":""}
+          >
+            Aberto
+          </option>
+
+          <option
+            value="atendimento"
+            ${t.status==="atendimento"?"selected":""}
+          >
+            Em atendimento
+          </option>
+
+          <option
+            value="aguardando"
+            ${t.status==="aguardando"?"selected":""}
+          >
+            Aguardando cliente
+          </option>
+
+          <option
+            value="resolvido"
+            ${t.status==="resolvido"?"selected":""}
+          >
+            Resolvido
+          </option>
+
+          <option
+            value="fechado"
+            ${t.status==="fechado"?"selected":""}
+          >
+            Fechado
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <small>
+          Prioridade
+        </small>
+
+        <select
+          onchange="alterarPrioridadeTicket(this.value)"
+        >
+
+          <option
+            value="baixa"
+            ${t.prioridade==="baixa"?"selected":""}
+          >
+            Baixa
+          </option>
+
+          <option
+            value="media"
+            ${t.prioridade==="media"?"selected":""}
+          >
+            Média
+          </option>
+
+          <option
+            value="alta"
+            ${t.prioridade==="alta"?"selected":""}
+          >
+            Alta
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <small>
+          Data de abertura
+        </small>
+
+        <strong>
+          ${esc(
+            formatarData(
+              t.criadoEm
+            )
+          )}
+        </strong>
+
+      </div>
+
+
+      <div class="detail-box">
+
+        <small>
+          Última atualização
+        </small>
+
+        <strong>
+          ${esc(
+            formatarData(
+              t.atualizadoEm
+            )
+          )}
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+    <h3
+      style="margin:0 0 8px"
+    >
+      Descrição do chamado
+    </h3>
+
+
+    <div class="ticket-description">
+
+      ${esc(t.descricao)}
+
+    </div>
+
+
+    <div class="ticket-reply">
+
+      <label>
+        <b>
+          Resposta / observação da equipe
+        </b>
+      </label>
+
+
+      <textarea
+        id="ticketReply"
+        placeholder="Digite uma resposta para o cliente ou uma observação interna..."
+      ></textarea>
+
+
+      <div class="ticket-reply-actions">
+
+        <button
+          class="btn danger"
+          onclick="excluirTicket()"
+        >
+          🗑 Excluir chamado
+        </button>
+
+
+        <button
+          class="btn primary"
+          onclick="responderTicket()"
+        >
+          💬 Adicionar resposta
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="ticket-history">
+
+      <div class="history-title">
+        Histórico do chamado
+      </div>
+
+
+      ${
+        historico.length
+
+        ?
+
+        historico.map(
+
+          r=>`
+
+            <div class="history-item">
+
+              <small>
+                ${esc(r.autor)}
+                ·
+                ${esc(
+                  formatarData(
+                    r.data
+                  )
+                )}
+              </small>
+
+              ${esc(r.texto)}
+
+            </div>
+
+          `
+
+        ).join("")
+
+        :
+
+        `<div class="history-item">
+
+          <small>
+            Nenhuma resposta registrada.
+          </small>
+
+        </div>`
+
+      }
+
+    </div>
+
+  `;
+
+
+  $("ticketDetailModal")
+    .classList.add("open");
+
+}
+
+
+function fecharDetalheTicket(){
+
+  $("ticketDetailModal")
+    .classList.remove("open");
+
+  ticketEditId=null;
+
+}
+
+
+function foraDetalheTicket(e){
+
+  if(
+    e.target.id===
+    "ticketDetailModal"
+  ){
+
+    fecharDetalheTicket();
+
+  }
+
+}
+
+
+/* =========================================================
+   ALTERAR STATUS
+========================================================= */
+
+function alterarStatusTicket(novoStatus){
+
+  let t=
+    tickets.find(
+      x=>x.id===ticketEditId
+    );
+
+
+  if(!t)
+    return;
+
+
+  t.status=
+    novoStatus;
+
+
+  t.atualizadoEm=
+    Date.now();
+
+
+  storeTickets();
+
+  renderTickets();
+
+  abrirDetalheTicket(
+    t.id
+  );
+
+
+  toast(
+    "Status atualizado."
+  );
+
+}
+
+
+/* =========================================================
+   ALTERAR PRIORIDADE
+========================================================= */
+
+function alterarPrioridadeTicket(
+  novaPrioridade
+){
+
+  let t=
+    tickets.find(
+      x=>x.id===ticketEditId
+    );
+
+
+  if(!t)
+    return;
+
+
+  t.prioridade=
+    novaPrioridade;
+
+
+  t.atualizadoEm=
+    Date.now();
+
+
+  storeTickets();
+
+  renderTickets();
+
+  abrirDetalheTicket(
+    t.id
+  );
+
+
+  toast(
+    "Prioridade atualizada."
+  );
+
+}
+
+
+/* =========================================================
+   RESPONDER TICKET
+========================================================= */
+
+function responderTicket(){
+
+  let t=
+    tickets.find(
+      x=>x.id===ticketEditId
+    );
+
+
+  if(!t)
+    return;
+
+
+  let campo=
+    $("ticketReply");
+
+
+  let texto=
+    campo.value.trim();
+
+
+  if(!texto){
+
+    toast(
+      "Digite uma resposta antes de enviar."
+    );
+
+    campo.focus();
+
+    return;
+
+  }
+
+
+  if(!t.respostas)
+    t.respostas=[];
+
+
+  t.respostas.push({
+
+    autor:
+      "Equipe de suporte",
+
+    texto:
+      texto,
+
+    data:
+      Date.now()
+
+  });
+
+
+  t.atualizadoEm=
+    Date.now();
+
+
+  storeTickets();
+
+  renderTickets();
+
+  abrirDetalheTicket(
+    t.id
+  );
+
+
+  toast(
+    "Resposta adicionada ao chamado."
+  );
+
+}
+
+
+/* =========================================================
+   EXCLUIR TICKET
+========================================================= */
+
+function excluirTicket(){
+
+  let t=
+    tickets.find(
+      x=>x.id===ticketEditId
+    );
+
+
+  if(!t)
+    return;
+
+
+  if(
+    confirm(
+      "Excluir o chamado #"+
+      t.numero+
+      "?"
+    )
+  ){
+
+    tickets=
+      tickets.filter(
+        x=>x.id!==t.id
+      );
+
+
+    storeTickets();
+
+    fecharDetalheTicket();
+
+    renderTickets();
+
+
+    toast(
+      "Chamado excluído."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function exportar(){
+
+  let backup={
+
+    app:
+      "LogosDev Project Hub",
+
+    versao:
+      2,
+
+    projetos:
+      projetos,
+
+    tickets:
+      tickets
+
+  };
+
+
+  let b=
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  let u=
+    URL.createObjectURL(b);
+
+
+  let a=
+    document.createElement("a");
+
+
+  a.href=u;
+
+
+  a.download=
+    "logosdev-project-hub-backup.json";
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(u);
+
+
+  toast(
+    "Backup exportado com projetos e tickets."
+  );
+
+}
+
+
+/* =========================================================
+   RESTAURAR BACKUP
+========================================================= */
+
+function importarBackup(e){
+
+  let f=
+    e.target.files[0];
+
+
+  if(!f)
+    return;
+
+
+  let r=
+    new FileReader();
+
+
+  r.onload=()=>{
+
+    try{
+
+      let d=
+        JSON.parse(
+          r.result
+        );
+
+
+      let a=
+        Array.isArray(d)
+        ?
+        d
+        :
+        d.projetos;
+
+
+      if(!Array.isArray(a))
+        throw 0;
+
+
+      let map=
+        new Map(
+          projetos.map(
+            p=>[p.id,p]
+          )
+        );
+
+
+      a.forEach(
+
+        p=>{
+
+          if(p?.nome){
+
+            map.set(
+
+              p.id||id(),
+
+              {
+                ...p,
+                id:p.id||id()
+              }
+
+            );
+
+          }
+
+        }
+
+      );
+
+
+      projetos=
+        [...map.values()];
+
+
+      /*
+        Restaura os tickets
+        caso existam no backup.
+      */
+
+      if(
+        Array.isArray(
+          d.tickets
+        )
+      ){
+
+        tickets=
+          d.tickets;
+
+
+        storeTickets();
+
+      }
+
+
+      store();
+
+      render();
+
+      renderTickets();
+
+
+      toast(
+        "Backup restaurado."
+      );
+
+    }
+
+    catch{
+
+      alert(
+        "Backup inválido."
+      );
+
+    }
+
+
+    e.target.value="";
+
+  };
+
+
+  r.readAsText(f);
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(t){
+
+  let x=
+    $("toast");
+
+
+  x.textContent=
+    t;
+
+
+  x.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.tt
+  );
+
+
+  window.tt=
+    setTimeout(
+      ()=>x.classList.remove("show"),
+      2400
+    );
+
+}
+
+
+/* =========================================================
+   TECLADO
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(e.key==="Escape"){
+
+      fechar();
+
+      fecharTicket();
+
+      fecharDetalheTicket();
+
+    }
+
+
+    if(
+      (e.ctrlKey||e.metaKey)&&
+      e.key.toLowerCase()==="k"
+    ){
+
+      e.preventDefault();
+
+      $("busca").focus();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
 load();
+
+loadTickets();
+
 </script>
+
 </body>
 </html>
